@@ -88,10 +88,13 @@ public class MainGameWindow extends BasicGame {
 
 	public static void createMainGameWindow() {
 		try {
-			AppGameContainer appgc;
-			appgc = new AppGameContainer(MainGameWindow.getInstance());
-			appgc.setDisplayMode(Settings.SCREENWIDTH, Settings.SCREENHEIGHT,
-					false);
+            Settings.getInstance().setFilePath("config/settings.json");
+            Settings.getInstance().load();
+             
+            AppGameContainer appgc;
+            appgc = new AppGameContainer(MainGameWindow.getInstance());
+            appgc.setDisplayMode(Settings.getInstance().getInt("SCREENWIDTH"), Settings.getInstance().getInt("SCREENHEIGHT"),
+                    false);
 
 			appgc.start();
 		} catch (SlickException ex) {
