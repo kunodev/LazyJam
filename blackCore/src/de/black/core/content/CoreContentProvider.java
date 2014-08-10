@@ -26,7 +26,7 @@ public class CoreContentProvider {
 	}
 	
 	public static void initGameObjects(GameContainer gc) {
-
+		
 	}
 	
 	

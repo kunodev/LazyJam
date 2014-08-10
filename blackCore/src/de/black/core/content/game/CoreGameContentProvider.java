@@ -1,6 +1,7 @@
 package de.black.core.content.game;
 
 import org.jbox2d.collision.shapes.EdgeShape;
+import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.collision.shapes.Shape;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.World;
@@ -15,6 +16,7 @@ import de.black.core.gameengine.StupidAnimationComponent;
 import de.black.core.gameengine.basic.GameObject;
 import de.black.core.gameengine.physics.BodyAdaptorComponent;
 import de.black.core.gameengine.renderer.ASCIISpriteAnimation;
+import de.black.core.tools.physics.BodyBuilder;
 
 public class CoreGameContentProvider {
 
@@ -44,13 +46,12 @@ public class CoreGameContentProvider {
 		ascii.color = Color.white;
 		player.addRenderComp(ascii);
 		player.addLogicComp(new StupidAnimationComponent());
-		player.addLogicComp(new BodyAdaptorComponent(physicsWorld));
+		BodyBuilder catBuilder = BodyBuilder.getBodyBuilder(physicsWorld).withAwake(true).withActive(true).withDefaultPolygonShape().withType(BodyType.DYNAMIC);
+		player.addLogicComp(new BodyAdaptorComponent(catBuilder));
 		GameObject floor = new GameObject(new Vector2f(0f,Settings.SCREENHEIGHT));
-		BodyAdaptorComponent bodyFloor = new BodyAdaptorComponent(physicsWorld);
-		bodyFloor.body.m_type = BodyType.STATIC;
-		Shape sh = new EdgeShape();
-		sh.m_radius = (5f);
-		bodyFloor.body.createFixture(sh, 1f);
+		BodyBuilder floorBuilder = BodyBuilder.getBodyBuilder(physicsWorld).
+				withDensity(Float.MAX_VALUE).withRectanglePolygonShape(Settings.SCREENWIDTH, 5f);
+		BodyAdaptorComponent bodyFloor = new BodyAdaptorComponent(floorBuilder);
 		floor.addLogicComp(bodyFloor);
 	}
 }

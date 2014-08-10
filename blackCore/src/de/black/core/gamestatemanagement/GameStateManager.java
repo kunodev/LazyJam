@@ -31,19 +31,11 @@ public class GameStateManager {
 		return this.activeState;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public <T> T getGameStateAs(Class<T> t) {
-		if(!t.isInstance(activeState)) {
-			System.err.println("Tried to get Invalid gamestate!");
-		}
 		return t.cast(this.activeState);
 	}
 	
-	@SuppressWarnings("unchecked")
 	public <T> T getGameStateAs(Class<T> t, int gamestateId) {
-		if(!t.isInstance(activeState)) {
-			System.err.println("Tried to get Invalid gamestate!");
-		}
 		return t.cast(this.gameStates.get(gamestateId));
 	}
 	public void render(GameContainer gc, Graphics g) {
