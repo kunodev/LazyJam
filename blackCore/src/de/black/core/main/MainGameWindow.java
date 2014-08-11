@@ -93,7 +93,7 @@ public class MainGameWindow extends BasicGame {
              
             AppGameContainer appgc;
             appgc = new AppGameContainer(MainGameWindow.getInstance());
-            appgc.setDisplayMode(Settings.getInstance().getInt("SCREENWIDTH"), Settings.getInstance().getInt("SCREENHEIGHT"),
+            appgc.setDisplayMode(Settings.getInstance().getInt(Settings.SCREEN_WIDTH), Settings.getInstance().getInt(Settings.SCREEN_HEIGHT),
                     false);
 
 			appgc.start();

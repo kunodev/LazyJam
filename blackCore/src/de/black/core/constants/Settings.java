@@ -3,16 +3,20 @@ package de.black.core.constants;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
  
 public class Settings {
      
     public static Settings instance;
+    public static String SCREEN_HEIGHT = "SCREENHEIGHT";
+    public static String SCREEN_WIDTH = "SCREENWIDTH";
      
     private JSONObject data;
     private String path;
@@ -49,6 +53,9 @@ public class Settings {
             obj = parser.parse(in);
             data = (JSONObject)obj;
             loaded = true;
+        } catch(FileNotFoundException e) {
+        	setToDefault(this);
+        	System.err.println("no settings file found, creating fallback!");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -86,7 +93,7 @@ public class Settings {
             return -1;
         }
          
-        return (int)((long)odata + 0);
+        return ((Number)odata).intValue();
     }
      
     public String getString(Object key) {
@@ -104,8 +111,15 @@ public class Settings {
         return result;
     }
      
-    public void putData(Object key, Object value) {
+    @SuppressWarnings("unchecked")
+	public void putData(Object key, Object value) {
         data.put(key, value);
+    }
+    
+    public static void setToDefault(Settings s) {
+    	s.putData(SCREEN_WIDTH, 1024);
+    	s.putData(SCREEN_HEIGHT, 786);
+    	s.loaded = true;
     }
      
 }

@@ -48,9 +48,9 @@ public class CoreGameContentProvider {
 		player.addLogicComp(new StupidAnimationComponent());
 		BodyBuilder catBuilder = BodyBuilder.getBodyBuilder(physicsWorld).withAwake(true).withActive(true).withDefaultPolygonShape().withType(BodyType.DYNAMIC);
 		player.addLogicComp(new BodyAdaptorComponent(catBuilder));
-        GameObject floor = new GameObject(new Vector2f(0f,Settings.getInstance().getInt("SCREENHEIGHT")));
+        GameObject floor = new GameObject(new Vector2f(0f,Settings.getInstance().getInt(Settings.SCREEN_HEIGHT)));
 		BodyBuilder floorBuilder = BodyBuilder.getBodyBuilder(physicsWorld).
-				withDensity(Float.MAX_VALUE).withRectanglePolygonShape(Settings.getInstance().getInt("SCREENWIDTH"), 5f);
+				withDensity(Float.MAX_VALUE).withRectanglePolygonShape(Settings.getInstance().getInt(Settings.SCREEN_WIDTH), 5f);
 		BodyAdaptorComponent bodyFloor = new BodyAdaptorComponent(floorBuilder);
 		floor.addLogicComp(bodyFloor);
 	}

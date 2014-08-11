@@ -77,7 +77,7 @@ public class BodyBuilder {
 	}
 	
 	public Body build() {
-		Body result = new Body(def, w);
+		Body result = w.createBody(def);
 		result.createFixture(shape, density);
 		return result;
 	}

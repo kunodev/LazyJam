@@ -43,7 +43,7 @@ public class SimpleVNSequence {
 	
 	public SimpleVNSequence() {
 		this.xwidth = 128;
-		this.yoffset = Settings.getInstance().getInt("SCREENHEIGHT") - 128;
+		this.yoffset = Settings.getInstance().getInt(Settings.SCREEN_HEIGHT) - 128;
 		this.frames = new ArrayList<VNFrame>();
 		this.textBoxAsset = new Animation();
 		try {
@@ -60,7 +60,7 @@ public class SimpleVNSequence {
 		VNFrame currentFrame = frames.get(currentPosition);
 		currentFrame.character.draw(cam.getX(), cam.getY() + yoffset, xwidth, xwidth);
 		textBoxAsset.draw(cam.getX() + xwidth, cam.getY() + yoffset,
-				Settings.getInstance().getInt("SCREENWIDTH")-xwidth, xwidth);
+				Settings.getInstance().getInt(Settings.SCREEN_WIDTH)-xwidth, xwidth);
 		FontManager.getInstance().drawTextRelative(xwidth, yoffset, currentFrame.text);
 	}
 	
