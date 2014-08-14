@@ -1,5 +1,11 @@
 package de.black.core.asset.assets;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 import org.newdawn.slick.geom.Rectangle;
 
 import de.black.core.tools.text.FontDefinition;
@@ -10,6 +16,9 @@ public class ASCIIPicture extends ARenderableObject{
 	
 	private String picture;
 	private FontDefinition drawingFont;
+
+	public ASCIIPicture() {
+	}
 	
 	public ASCIIPicture(String picture) {
 		this.picture = picture;
@@ -48,6 +57,27 @@ public class ASCIIPicture extends ARenderableObject{
 
 	public void setDrawingFont(FontDefinition drawingFont) {
 		this.drawingFont = drawingFont;
+	}
+
+	@Override
+	public boolean load(String path) {
+		// TODO Auto-generated method stub
+		File f = new File(path);
+		String picture = "";
+		/* Load String from file */
+		try {
+			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path), "utf-8"));
+		    String line = null;
+		    while ((line = reader.readLine()) != null) {
+		        picture = picture + line + "\n";
+		    }
+		} catch (IOException x) {
+		    System.err.format("IOException: %s%n", x);
+		    return false;
+		}
+		this.picture = picture;
+		this.drawingFont = FontManager.getInstance().getFontDefinition();
+		return true;
 	}
 	
 }
