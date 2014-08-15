@@ -6,6 +6,7 @@ import java.util.HashMap;
 import de.black.core.asset.assets.ARenderableObject;
 import de.black.core.asset.assets.ASCIIPicture;
 import de.black.core.asset.assets.ImagePicture;
+import de.black.core.tools.log.LogManager;
 
 public class AssetManager {
 	
@@ -58,8 +59,9 @@ public class AssetManager {
 					name = name.substring(0, lastIndex);
 				}
 				
-				this.addAsset(name, asset);
-				
+				this.addAsset(name, asset);	
+			} else {
+				LogManager.getInstance().log("Loading of '" + listOfFiles[i].getName() + "' failed.");
 			}
 		}
 	}

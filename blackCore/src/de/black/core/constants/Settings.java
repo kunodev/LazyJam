@@ -11,6 +11,8 @@ import java.io.OutputStreamWriter;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+
+import de.black.core.tools.log.LogManager;
  
 public class Settings {
      
@@ -43,7 +45,7 @@ public class Settings {
         BufferedReader in = null;
         /* Can't load any config */
         if(path.equals("")) {
-            System.out.println("Could not load config. Path not set");
+        	LogManager.getInstance().log("Could not load config. Path not set");
             return;
         }
          
@@ -55,7 +57,7 @@ public class Settings {
             loaded = true;
         } catch(FileNotFoundException e) {
         	setToDefault(this);
-        	System.err.println("no settings file found, creating fallback!");
+        	LogManager.getInstance().log("no settings file found, creating fallback!");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -65,7 +67,7 @@ public class Settings {
         BufferedWriter out = null;
         /* Can't save any config */
         if(path.equals("")) {
-            System.out.println("Could not save config. Path not set");
+        	LogManager.getInstance().log("Could not save config. Path not set");
             return;
         }
          
@@ -82,14 +84,14 @@ public class Settings {
  
     public int getInt(Object key) {
         if(!loaded) {
-            System.out.println("Settings not loaded");
+        	LogManager.getInstance().log("Settings not loaded");
             return -1;
         }
          
         Object odata = data.get(key);
          
         if(odata == null) {
-            System.out.println("Key '"+key+"' in Settings not found");
+        	LogManager.getInstance().log("Key '"+key+"' in Settings not found");
             return -1;
         }
          
@@ -99,13 +101,13 @@ public class Settings {
     public String getString(Object key) {
         String result;
         if(!loaded) {
-            System.out.println("Settings not loaded");
+        	LogManager.getInstance().log("Settings not loaded");
             return "";
         }
         result = (String)data.get(key);
          
         if(result == null) {
-            System.out.println("Key '"+key+"' in Settings not found");
+        	LogManager.getInstance().log("Key '"+key+"' in Settings not found");
         }
          
         return result;
