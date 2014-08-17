@@ -15,6 +15,7 @@ import de.black.core.constants.Tags;
 import de.black.core.gameengine.StupidAnimationComponent;
 import de.black.core.gameengine.basic.GameObject;
 import de.black.core.gameengine.physics.BodyAdaptorComponent;
+import de.black.core.gameengine.physics.VectorHelper;
 import de.black.core.gameengine.renderer.ASCIISpriteAnimation;
 import de.black.core.tools.physics.BodyBuilder;
 
@@ -48,10 +49,17 @@ public class CoreGameContentProvider {
 		player.addLogicComp(new StupidAnimationComponent());
 		BodyBuilder catBuilder = BodyBuilder.getBodyBuilder(physicsWorld).withAwake(true).withActive(true).withDefaultPolygonShape().withType(BodyType.DYNAMIC);
 		player.addLogicComp(new BodyAdaptorComponent(catBuilder));
-        GameObject floor = new GameObject(new Vector2f(0f,Settings.getInstance().getInt(Settings.SCREEN_HEIGHT)));
-		BodyBuilder floorBuilder = BodyBuilder.getBodyBuilder(physicsWorld).
-				withDensity(Float.MAX_VALUE).withRectanglePolygonShape(Settings.getInstance().getInt(Settings.SCREEN_WIDTH), 5f);
+
+		ASCIIPicture[] floorPic = {new ASCIIPicture("_________________________________________")};
+		ASCIISpriteAnimation asciiFloor = new ASCIISpriteAnimation(floorPic);
+		
+		GameObject floor = new GameObject(new Vector2f(0f,Settings.getInstance().getInt(Settings.SCREEN_HEIGHT) - 20f));
+		BodyBuilder floorBuilder = BodyBuilder.getBodyBuilder(physicsWorld)
+				.withRectanglePolygonShape(Settings.getInstance().getInt(Settings.SCREEN_WIDTH)/VectorHelper.SCALING_FACTOR/2, 0.05f).withType(BodyType.STATIC)
+						.withActive(true);
 		BodyAdaptorComponent bodyFloor = new BodyAdaptorComponent(floorBuilder);
+		asciiFloor.color = Color.cyan;
 		floor.addLogicComp(bodyFloor);
+		floor.addRenderComp(asciiFloor);
 	}
 }

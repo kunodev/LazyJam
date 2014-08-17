@@ -22,7 +22,7 @@ public class GameGameStateWithPhysics extends GameGameState{
 	@Override
 	protected void update(GameContainer gc) {
 		super.update(gc);
-		physicsWorld.step(1f, 1, 1);
+		physicsWorld.step(1f, 6, 2);
 	}
 	
 	public void init() {

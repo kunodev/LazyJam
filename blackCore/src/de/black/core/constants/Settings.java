@@ -122,6 +122,7 @@ public class Settings {
     	s.putData(SCREEN_WIDTH, 1024);
     	s.putData(SCREEN_HEIGHT, 786);
     	s.loaded = true;
+    	s.save();
     }
      
 }

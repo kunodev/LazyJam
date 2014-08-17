@@ -9,7 +9,9 @@ import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.World;
 
 public class BodyBuilder {
-	
+	//TODO: scale everything in meters (make it smaller)
+	//TODO: Read manual pdf, try HelloWorldExample in this shit
+	//TODO: find out why kitten does not fall to the ground
 	public static BodyBuilder getBodyBuilder(World w) {
 		return new BodyBuilder(w);
 	}
@@ -52,7 +54,7 @@ public class BodyBuilder {
 	
 	public BodyBuilder withDefaultPolygonShape() {
 		PolygonShape pshape = new PolygonShape();
-		pshape.setAsBox(20f, 20f);
+		pshape.setAsBox(0.2f, 0.2f);
 		shape = pshape;
 		return this;
 	}
