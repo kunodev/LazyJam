@@ -6,6 +6,7 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
+import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 
 public class BodyBuilder {
@@ -20,6 +21,7 @@ public class BodyBuilder {
 	private BodyDef def;
 	private Shape shape;
 	private float density;
+	private FixtureDef fixDef;
 	
 	private BodyBuilder(World w) {
 		def = new BodyDef();
@@ -82,11 +84,25 @@ public class BodyBuilder {
 		return this;
 	}
 	
+	public BodyBuilder withFixtureDef(FixtureDef fixDef) {
+		this.fixDef = fixDef;
+		return this;
+	}
+	
 	public Body build() {
 		Body result = w.createBody(def);
-		result.createFixture(shape, density);
+		if(this.fixDef == null) {
+			result.createFixture(shape, density);
+		} else {
+			if(this.fixDef.shape == null) {
+				this.fixDef.shape = shape;
+			}
+			result.createFixture(fixDef);
+		}
 		return result;
 	}
+	
+	
 	
 	
 	

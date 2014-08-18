@@ -4,6 +4,7 @@ import org.jbox2d.collision.shapes.EdgeShape;
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.collision.shapes.Shape;
 import org.jbox2d.dynamics.BodyType;
+import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Vector2f;
@@ -18,6 +19,7 @@ import de.black.core.gameengine.physics.BodyAdaptorComponent;
 import de.black.core.gameengine.physics.VectorHelper;
 import de.black.core.gameengine.renderer.ASCIISpriteAnimation;
 import de.black.core.tools.physics.BodyBuilder;
+import de.black.core.tools.physics.FixtureDefBuilder;
 
 public class CoreGameContentProvider {
 
@@ -47,7 +49,7 @@ public class CoreGameContentProvider {
 		ascii.color = Color.white;
 		player.addRenderComp(ascii);
 		player.addLogicComp(new StupidAnimationComponent());
-		BodyBuilder catBuilder = BodyBuilder.getBodyBuilder(physicsWorld).withAwake(true).withActive(true).withDefaultPolygonShape().withType(BodyType.DYNAMIC);
+		BodyBuilder catBuilder = BodyBuilder.getBodyBuilder(physicsWorld).withAwake(true).withActive(true).withType(BodyType.DYNAMIC);
 		BodyAdaptorComponent catBody = new BodyAdaptorComponent();
 		player.addLogicComp(catBody);
 
@@ -56,14 +58,15 @@ public class CoreGameContentProvider {
 		
 		GameObject floor = new GameObject(new Vector2f(0f,Settings.getInstance().getInt(Settings.SCREEN_HEIGHT) - 20f));
 		BodyBuilder floorBuilder = BodyBuilder.getBodyBuilder(physicsWorld)
-				.withRectanglePolygonShape(Settings.getInstance().getInt(Settings.SCREEN_WIDTH)/VectorHelper.SCALING_FACTOR/2, 0.05f).withType(BodyType.STATIC)
+				.withType(BodyType.STATIC)
 						.withActive(true);
 		BodyAdaptorComponent bodyFloor = new BodyAdaptorComponent();
 		
 		asciiFloor.color = Color.cyan;
 		floor.addLogicComp(bodyFloor);
-		bodyFloor.buildBody(floorBuilder);
-		catBody.buildBody(catBuilder);
 		floor.addRenderComp(asciiFloor);
+//		FixtureDefBuilder fd = new FixtureDefBuilder();
+		bodyFloor.buildBodyWithSpriteCollider(floorBuilder);
+		catBody.buildBodyWithSpriteCollider(catBuilder);
 	}
 }

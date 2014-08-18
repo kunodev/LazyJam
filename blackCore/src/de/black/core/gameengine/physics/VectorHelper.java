@@ -20,4 +20,8 @@ public class VectorHelper {
 		return result;
 	}
 	
+	public static float scaleDown(float x) {
+		return x/SCALING_FACTOR;
+	}
+	
 }

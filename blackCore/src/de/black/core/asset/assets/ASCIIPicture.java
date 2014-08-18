@@ -46,7 +46,7 @@ public class ASCIIPicture extends ARenderableObject{
 		for(String pic : pictures) {
 			maxLength = Math.max(maxLength, pic.length());
 		}
-		int fontSize = this.drawingFont.getAwtFont().getSize();
+		int fontSize = this.drawingFont.getTtfFont().getHeight();
 		Rectangle result = new Rectangle(0, 0, fontSize*maxLength, fontSize*pictures.length);
 		return result;
 	}
