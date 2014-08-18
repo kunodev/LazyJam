@@ -28,7 +28,6 @@ public class BodyBuilder {
 		def.awake = true;
 		def.type = BodyType.DYNAMIC;
 		density = 1f;
-		def = new BodyDef();
 		this.w = w;
 	}
 	
@@ -78,11 +77,17 @@ public class BodyBuilder {
 		return this;
 	}
 	
+	public BodyBuilder withPosition(Vec2 pos) {
+		this.def.position = pos;
+		return this;
+	}
+	
 	public Body build() {
 		Body result = w.createBody(def);
 		result.createFixture(shape, density);
 		return result;
 	}
+	
 	
 	
 

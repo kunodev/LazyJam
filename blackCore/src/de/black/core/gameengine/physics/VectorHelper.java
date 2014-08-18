@@ -7,14 +7,12 @@ public class VectorHelper {
 	
 	public static final float SCALING_FACTOR = 100f;
 	
-	public static void setJBoxVector(Vec2 target, Vector2f source) {
-		target.x = source.x/SCALING_FACTOR;
-		target.y = source.y/SCALING_FACTOR;
+	public static void setToJboxVector(Vec2 target, Vector2f source) {
+		target.set(source.x/SCALING_FACTOR, source.y/SCALING_FACTOR);
 	}
 	
 	public static void setSlickVector(Vector2f target, Vec2 source) {
-		target.x = source.x*SCALING_FACTOR;
-		target.y = source.y*SCALING_FACTOR;
+		target.set(source.x*SCALING_FACTOR, source.y*SCALING_FACTOR);
 	}
 	
 	public static Vec2 createVec2Scaled(float x, float y) {

@@ -48,7 +48,8 @@ public class CoreGameContentProvider {
 		player.addRenderComp(ascii);
 		player.addLogicComp(new StupidAnimationComponent());
 		BodyBuilder catBuilder = BodyBuilder.getBodyBuilder(physicsWorld).withAwake(true).withActive(true).withDefaultPolygonShape().withType(BodyType.DYNAMIC);
-		player.addLogicComp(new BodyAdaptorComponent(catBuilder));
+		BodyAdaptorComponent catBody = new BodyAdaptorComponent();
+		player.addLogicComp(catBody);
 
 		ASCIIPicture[] floorPic = {new ASCIIPicture("_________________________________________")};
 		ASCIISpriteAnimation asciiFloor = new ASCIISpriteAnimation(floorPic);
@@ -57,9 +58,12 @@ public class CoreGameContentProvider {
 		BodyBuilder floorBuilder = BodyBuilder.getBodyBuilder(physicsWorld)
 				.withRectanglePolygonShape(Settings.getInstance().getInt(Settings.SCREEN_WIDTH)/VectorHelper.SCALING_FACTOR/2, 0.05f).withType(BodyType.STATIC)
 						.withActive(true);
-		BodyAdaptorComponent bodyFloor = new BodyAdaptorComponent(floorBuilder);
+		BodyAdaptorComponent bodyFloor = new BodyAdaptorComponent();
+		
 		asciiFloor.color = Color.cyan;
 		floor.addLogicComp(bodyFloor);
+		bodyFloor.buildBody(floorBuilder);
+		catBody.buildBody(catBuilder);
 		floor.addRenderComp(asciiFloor);
 	}
 }

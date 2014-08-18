@@ -1,36 +1,35 @@
 package de.black.core.gameengine.physics;
 
-import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.World;
 
 import de.black.core.gameengine.basic.ALogicComponent;
+import de.black.core.tools.log.LogManager;
 import de.black.core.tools.physics.BodyBuilder;
-import de.black.core.tools.physics.TestContactListener;
 
 public class BodyAdaptorComponent extends ALogicComponent{
 	
 	public Body body;
-	public TestContactListener testListener; 
 	
 	public BodyAdaptorComponent(World w) {
-		BodyBuilder bb = BodyBuilder.getBodyBuilder(w).withRectanglePolygonShape(20f, 20f);
-		body = bb.build();
+	
 	}
 
-	public BodyAdaptorComponent(BodyBuilder bb) {
-		body = bb.build();
-		testListener = new TestContactListener(body);
-		body.getWorld().setContactListener(testListener);
+	public BodyAdaptorComponent() {
+		
 	}
 
 	@Override
 	public void onUpdate() {
+//		System.out.println("update pre: " + getGameObject().getPos().toString());
+//		System.out.println("update pre: " + body.getPosition());
 		VectorHelper.setSlickVector(getGameObject().getPos(), body.getPosition());
+//		System.out.println("update post: " + getGameObject().getPos().toString());
+//		System.out.println("update post: " + body.getPosition());
 	}
-	@Override
-	public void onAdded() {
-		VectorHelper.setJBoxVector(body.getPosition(), getGameObject().getPos());
+	
+	public void buildBody(BodyBuilder bb) {
+		this.body = bb.withPosition(VectorHelper.createVec2Scaled(getGameObject().getPos().x, getGameObject().getPos().y)).build();
 	}
 
 }
