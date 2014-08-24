@@ -33,6 +33,11 @@ public interface IGameState {
 	 * @return
 	 */
 	public int getTickTimer();
+	/**
+	 * Does things that should happen on leavin ghte state, e.g. stopping music
+	 */
+	public void onLeaveState();
+	
 	
 	
 

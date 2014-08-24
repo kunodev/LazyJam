@@ -1,7 +1,13 @@
 package de.black.core.asset.manager;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
+
+import org.newdawn.slick.Sound;
+import org.newdawn.slick.openal.Audio;
+import org.newdawn.slick.openal.SoundStore;
 
 import de.black.core.asset.assets.ARenderableObject;
 import de.black.core.asset.assets.ASCIIPicture;
@@ -23,7 +29,8 @@ public class AssetManager {
 	
 	private static AssetManager instance;
 	
-	private HashMap<String, ARenderableObject> assetBank;
+	private Map<String, ARenderableObject> assetBank;
+	private Map<String, Audio> soundBank;
 	
 	public static AssetManager getInstance() {
 		if (instance == null)
@@ -33,6 +40,7 @@ public class AssetManager {
 	
 	public AssetManager() {
 		this.assetBank = new HashMap<String, ARenderableObject>();
+		this.soundBank = new HashMap<String, Audio>();
 	}
 
 	public void init() {
@@ -46,46 +54,55 @@ public class AssetManager {
 	{
 		File folder = new File(folderPath);
 		File[] listOfFiles = folder.listFiles();
-		ARenderableObject asset;
 		
 		for (int i = 0; i < listOfFiles.length; i++) {
-			asset = loadAsset(listOfFiles[i]);
-			
-			if (asset != null) {
-				String name = listOfFiles[i].getName();
-				int lastIndex = name.lastIndexOf(".");
-				
-				if (lastIndex > 0) {
-					name = name.substring(0, lastIndex);
-				}
-				
-				this.addAsset(name, asset);	
+			if(isSound(listOfFiles[i])) {
+				loadSound(listOfFiles[i]);
 			} else {
-				LogManager.getInstance().log("Loading of '" + listOfFiles[i].getName() + "' failed.");
+				loadAsset(listOfFiles[i]);
 			}
 		}
 	}
 	
+	private void loadSound(File file) {
+		try {
+			String name = getNameOfAsset(file);
+			soundBank.put(name, SoundStore.get().getOgg(file.getPath()));
+		} catch (IOException e) {
+			LogManager.getInstance().log(e.getStackTrace().toString());
+		}
+		
+	}
+
 	/*
-	 * Try different loaders to load an assetfile. If it is sucessfull return the loaded asset.
-	 * If all loaders fail, null is returned.
+	 * Try different loaders to load an assetfile and put it in the assetBank
 	 */
 	@SuppressWarnings("unchecked")
-	private ARenderableObject loadAsset(File file) {
+	private void loadAsset(File file) {
 		ARenderableObject result;
 		for (Class<ARenderableObject> c : loaders) {
 			try {
 				result = (ARenderableObject)c.newInstance();
 				/* if loading succeeds exit loading */
 				if (result.load(file.getPath())) {
-					return result;
+					String name = getNameOfAsset(file);
+					
+					this.addAsset(name, result);	
 				}
 			} catch (InstantiationException | IllegalAccessException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		return null;
+	}
+
+	private String getNameOfAsset(File file) {
+		String name = file.getName();
+		int lastIndex = name.lastIndexOf(".");
+		
+		if (lastIndex > 0) {
+			name = name.substring(0, lastIndex);
+		}
+		return name;
 	}
 	
 	public boolean assetExits(String key) {
@@ -102,6 +119,10 @@ public class AssetManager {
 	
 	public ARenderableObject getAsset(String key) {
 		return assetBank.get(key);
+	}
+	
+	private boolean isSound(File f) {
+		return f.getAbsolutePath().endsWith(".mp3");
 	}
 	
 }

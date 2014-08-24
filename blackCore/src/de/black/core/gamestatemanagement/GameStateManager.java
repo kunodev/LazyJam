@@ -24,6 +24,7 @@ public class GameStateManager {
 	}
 	
 	public void setGameState(int key) {
+		this.gameStates.get(activeState).onLeaveState();
 		this.activeState = gameStates.get(key);
 	}
 	

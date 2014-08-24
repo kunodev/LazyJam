@@ -1,6 +1,7 @@
 package de.black.core.gamestatemanagement;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.openal.Audio;
 
 import de.black.core.constants.Constants;
 import de.black.core.gamestatemanagement.concrete.VNGameState;
@@ -11,6 +12,7 @@ public abstract class AGameState implements IGameState{
 	protected final IInput inputHandler;
 	protected int tick = 0;
 	protected final int TICK_TIME;
+	public Audio bgm;
 	
 	protected AGameState(IInput inputHandler) {
 		this.inputHandler = inputHandler;
@@ -25,12 +27,25 @@ public abstract class AGameState implements IGameState{
 	
 	@Override
 	public void onUpdate(GameContainer gc, int deltaInMilliseconds) {
+		startBGM();
 		tick += deltaInMilliseconds;
 		if(tick >= TICK_TIME) {
 			getInput().update();
 			update(gc);
 			tick = 0;
 		}
+	}
+	private void startBGM() {
+		if(bgm != null) {
+			if(!bgm.isPlaying()) {
+				bgm.playAsMusic(1f, 1f, true);
+			}
+		}
+	}
+	
+	@Override
+	public void onLeaveState() {
+		bgm.stop();
 	}
 	
 	@Override
