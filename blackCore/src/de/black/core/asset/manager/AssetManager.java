@@ -1,12 +1,15 @@
 package de.black.core.asset.manager;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.openal.Audio;
+import org.newdawn.slick.openal.DeferredSound;
 import org.newdawn.slick.openal.SoundStore;
 
 import de.black.core.asset.assets.ARenderableObject;
@@ -41,25 +44,27 @@ public class AssetManager {
 	public AssetManager() {
 		this.assetBank = new HashMap<String, ARenderableObject>();
 		this.soundBank = new HashMap<String, Audio>();
+		SoundStore.get().init();
+		init();
 	}
 
 	public void init() {
-		init(defaultFolder);
+		File folder = new File(defaultFolder);
+		init(folder);
 	}
 	/*
 	 * Goes through every file in 'folderPath' and tries to load it. If it could be loaded
 	 * it will be added to the database.
 	 */
-	public void init(String folderPath)
+	public void init(File folder)
 	{
-		File folder = new File(folderPath);
-		File[] listOfFiles = folder.listFiles();
-		
-		for (int i = 0; i < listOfFiles.length; i++) {
-			if(isSound(listOfFiles[i])) {
-				loadSound(listOfFiles[i]);
+		for(File f : folder.listFiles()) {
+			if(f.isDirectory()) {
+				init(f);
+			} else if(isSound(f)) {
+				loadSound(f);
 			} else {
-				loadAsset(listOfFiles[i]);
+				loadAsset(f);
 			}
 		}
 	}
@@ -67,11 +72,11 @@ public class AssetManager {
 	private void loadSound(File file) {
 		try {
 			String name = getNameOfAsset(file);
-			soundBank.put(name, SoundStore.get().getOgg(file.getPath()));
+			InputStream ioStream = new FileInputStream(file);
+			soundBank.put(name, SoundStore.get().getOgg(ioStream));
 		} catch (IOException e) {
 			LogManager.getInstance().log(e.getStackTrace().toString());
 		}
-		
 	}
 
 	/*
@@ -122,7 +127,11 @@ public class AssetManager {
 	}
 	
 	private boolean isSound(File f) {
-		return f.getAbsolutePath().endsWith(".mp3");
+		return f.getAbsolutePath().endsWith(".ogg");
+	}
+	
+	public Audio getSound(String name) {
+		return soundBank.get(name);
 	}
 	
 }

@@ -3,6 +3,7 @@ package de.black.core.content;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.geom.Vector2f;
 
+import de.black.core.asset.manager.AssetManager;
 import de.black.core.gameengine.basic.GameObject;
 import de.black.core.gameengine.renderer.ASCIISpriteAnimation;
 import de.black.core.gamestatemanagement.GameStateManager;
@@ -15,7 +16,9 @@ public class CoreContentProvider {
 	
 	public static void initGameStates(GameContainer gc) {
 		GameStateManager man = GameStateManager.getInstance();
-		man.addGameState(MenuGameState.ID, new MenuGameState(gc));
+		MenuGameState menu = new MenuGameState(gc);
+		menu.bgm = AssetManager.getInstance().getSound("bgm");
+		man.addGameState(MenuGameState.ID, menu);
 		man.setGameState(MenuGameState.ID);
 		VNGameState vnman = new VNGameState(gc);
 		vnman.init();

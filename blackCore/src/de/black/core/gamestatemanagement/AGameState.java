@@ -45,7 +45,9 @@ public abstract class AGameState implements IGameState{
 	
 	@Override
 	public void onLeaveState() {
-		bgm.stop();
+		if(bgm != null) {
+			bgm.stop();
+		}
 	}
 	
 	@Override

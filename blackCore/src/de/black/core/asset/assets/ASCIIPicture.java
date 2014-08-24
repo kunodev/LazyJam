@@ -61,9 +61,11 @@ public class ASCIIPicture extends ARenderableObject{
 
 	@Override
 	public boolean load(String path) {
-		// TODO Auto-generated method stub
-		File f = new File(path);
+ 		File f = new File(path);
 		String picture = "";
+		if(!f.getPath().endsWith(".txt")) {
+			return false; // dont try to load binary files of something else
+		}
 		/* Load String from file */
 		try {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path), "utf-8"));
