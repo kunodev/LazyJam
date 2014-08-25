@@ -1,10 +1,12 @@
-package de.black.core.gameengine.logics.movement;
+package de.black.core.gameengine.logics.concrete.movement;
 
 import org.newdawn.slick.geom.Vector2f;
 
 import de.black.core.gameengine.basic.ALogicComponent;
 
 public class VelocityComponent extends ALogicComponent {
+	
+	public static String COMPONENT = "velocity";
 
 	protected Vector2f v;
 	

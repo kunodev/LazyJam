@@ -1,4 +1,4 @@
-package de.black.core.gameengine.logics.movement;
+package de.black.core.gameengine.logics.concrete.movement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,8 @@ import java.util.List;
 import org.newdawn.slick.geom.Vector2f;
 
 public class MultiAccelComponent extends AccelelerationComponent {
+	
+	public static String COMPONENT = "multiAccel";
 	
 	private List<Vector2f> accellerations;
 	

@@ -5,7 +5,7 @@ import org.newdawn.slick.Input;
 
 import de.black.core.constants.Tags;
 import de.black.core.gameengine.basic.GameObject;
-import de.black.core.gameengine.physics.BodyAdaptorComponent;
+import de.black.core.gameengine.logics.concrete.physics.BodyAdaptorComponent;
 import de.black.core.gamestatemanagement.GameStateManager;
 import de.black.core.gamestatemanagement.concrete.GameGameState;
 import de.black.core.input.IInput;

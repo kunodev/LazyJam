@@ -57,29 +57,5 @@ public class ASCIIPicture extends ARenderableObject{
 
 	public void setDrawingFont(FontDefinition drawingFont) {
 		this.drawingFont = drawingFont;
-	}
-
-	@Override
-	public boolean load(String path) {
- 		File f = new File(path);
-		String picture = "";
-		if(!f.getPath().endsWith(".txt")) {
-			return false; // dont try to load binary files of something else
-		}
-		/* Load String from file */
-		try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path), "utf-8"));
-		    String line = null;
-		    while ((line = reader.readLine()) != null) {
-		        picture = picture + line + "\n";
-		    }
-		} catch (IOException x) {
-		    System.err.format("IOException: %s%n", x);
-		    return false;
-		}
-		this.picture = picture;
-		this.drawingFont = FontManager.getInstance().getFontDefinition();
-		return true;
-	}
-	
+	}	
 }

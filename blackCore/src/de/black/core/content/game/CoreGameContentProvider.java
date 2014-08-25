@@ -10,14 +10,16 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Vector2f;
 
 import de.black.core.asset.assets.ASCIIPicture;
+import de.black.core.asset.manager.AssetManager;
 import de.black.core.constants.Constants;
 import de.black.core.constants.Settings;
 import de.black.core.constants.Tags;
 import de.black.core.gameengine.StupidAnimationComponent;
 import de.black.core.gameengine.basic.GameObject;
-import de.black.core.gameengine.physics.BodyAdaptorComponent;
-import de.black.core.gameengine.physics.VectorHelper;
-import de.black.core.gameengine.renderer.ASCIISpriteAnimation;
+import de.black.core.gameengine.basic.helper.ComponentRegistry;
+import de.black.core.gameengine.basic.helper.VectorHelper;
+import de.black.core.gameengine.logics.concrete.physics.BodyAdaptorComponent;
+import de.black.core.gameengine.renderer.concrete.ASCIISpriteAnimation;
 import de.black.core.tools.physics.BodyBuilder;
 import de.black.core.tools.physics.FixtureDefBuilder;
 
@@ -26,26 +28,8 @@ public class CoreGameContentProvider {
 	
 	public static void initGameObjects(World physicsWorld) {
 		GameObject player = new GameObject(new Vector2f(256f,256f), Tags.PLAYER);
-		String cat = 
-			    "  _._     _,-'\"\"`-._	    \n" +
-			    "  (,-.`._,'(       |\\`-/| \n" +
-			    "      `-.-' \\ )-`( , o o) \n" +
-			    "  -bf-      `-    \\`_`\\\"'- \n"		
-		;
-		String catRun1 = cat;
-		String catRun2 = 
-			    "  _._     _,-'\"\"`-._	   \n" +
-			    "  (,-.`._,'(       |\\`-/| \n" +
-			    "      `-.-' \\ )-`( , o o) \n" +
-			    "  -bf-      `-    /`_`/\"'- \n"		
-		;
-		ASCIIPicture idlePic = new ASCIIPicture(cat);
-		ASCIIPicture run1 = new ASCIIPicture(catRun1);
-		ASCIIPicture run2 = new ASCIIPicture(catRun2);
-		ASCIIPicture[] idle = {idlePic};
-		ASCIIPicture[] run = {run1,run2};
-		ASCIISpriteAnimation ascii = new ASCIISpriteAnimation(idle);
-		ascii.addFromArray(run);
+		
+		ASCIISpriteAnimation ascii = (ASCIISpriteAnimation) AssetManager.getInstance().getAsset("cat");
 		ascii.color = Color.white;
 		player.addRenderComp(ascii);
 		player.addLogicComp(new StupidAnimationComponent());
@@ -68,5 +52,6 @@ public class CoreGameContentProvider {
 //		FixtureDefBuilder fd = new FixtureDefBuilder();
 		bodyFloor.buildBodyWithSpriteCollider(floorBuilder);
 		catBody.buildBodyWithSpriteCollider(catBuilder);
+		ComponentRegistry.getInstance();
 	}
 }

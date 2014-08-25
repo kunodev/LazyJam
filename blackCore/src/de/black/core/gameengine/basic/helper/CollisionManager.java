@@ -1,10 +1,10 @@
-package de.black.core.gameengine.logics.collisiondetection.helper;
+package de.black.core.gameengine.basic.helper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import de.black.core.gameengine.logics.collisiondetection.AColliderComponent;
-import de.black.core.gameengine.logics.collisiondetection.RectangleColliderComponent;
+import de.black.core.gameengine.logics.abstrct.AColliderComponent;
+import de.black.core.gameengine.logics.concrete.collisiondetection.RectangleColliderComponent;
 
 public class CollisionManager {
 	

@@ -1,4 +1,4 @@
-package de.black.core.gameengine.physics;
+package de.black.core.gameengine.logics.concrete.physics;
 
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.FixtureDef;
@@ -6,11 +6,15 @@ import org.jbox2d.dynamics.World;
 import org.newdawn.slick.geom.Rectangle;
 
 import de.black.core.gameengine.basic.ALogicComponent;
-import de.black.core.gameengine.renderer.SimpleAbstractAnimationComponent;
+import de.black.core.gameengine.basic.helper.VectorHelper;
+import de.black.core.gameengine.renderer.abstrct.SimpleAbstractAnimationComponent;
 import de.black.core.tools.log.LogManager;
 import de.black.core.tools.physics.BodyBuilder;
 
 public class BodyAdaptorComponent extends ALogicComponent{
+	
+
+	public static String COMPONENT = "rigidBody";
 	
 	public Body body;
 	

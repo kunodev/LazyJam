@@ -1,4 +1,4 @@
-package de.black.core.gameengine.physics;
+package de.black.core.gameengine.basic.helper;
 
 import org.jbox2d.common.Vec2;
 import org.newdawn.slick.geom.Vector2f;

@@ -1,15 +1,13 @@
-package de.black.core.gameengine.logics.collisiondetection;
+package de.black.core.gameengine.logics.abstrct;
 
 import org.newdawn.slick.geom.Shape;
 
 import de.black.core.gameengine.basic.ALogicComponent;
-import de.black.core.gameengine.logics.collisiondetection.helper.CollisionManager;
+import de.black.core.gameengine.basic.helper.CollisionManager;
 
 public abstract class AColliderComponent extends ALogicComponent {
-
-
 	
-	protected Shape shape;
+	public Shape shape;
 	
 	public AColliderComponent() {
 		CollisionManager.getInstance().registerComponent(this);

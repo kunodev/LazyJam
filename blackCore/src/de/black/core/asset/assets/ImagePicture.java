@@ -34,13 +34,10 @@ public class ImagePicture extends ARenderableObject {
 		return new Rectangle(0, 0, picture.getWidth(), picture.getHeight());
 	}
 
-	@Override
 	public boolean load(String path) {
-		// TODO Auto-generated method stub
 		try {
 			this.picture = new Image(path);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			//e.printStackTrace();
 			return false;
 		}

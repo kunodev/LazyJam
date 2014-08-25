@@ -1,4 +1,4 @@
-package de.black.core.gameengine.logics.collisiondetection;
+package de.black.core.gameengine.logics.concrete.collisiondetection;
 
 import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
@@ -7,9 +7,12 @@ import org.newdawn.slick.geom.Vector2f;
 import de.black.core.asset.assets.ARenderableObject;
 import de.black.core.gameengine.basic.ALogicComponent;
 import de.black.core.gameengine.basic.ARenderComponent;
-import de.black.core.gameengine.renderer.SimpleAbstractAnimationComponent;
+import de.black.core.gameengine.logics.abstrct.AColliderComponent;
+import de.black.core.gameengine.renderer.abstrct.SimpleAbstractAnimationComponent;
 
 public abstract class RectangleColliderComponent extends AColliderComponent{
+	
+	public static String COMPONENT = "RectangleColliderComponent";
 	
 	public enum DIRECTION {
 		UP,DOWN,LEFT,RIGHT,NONE

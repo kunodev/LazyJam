@@ -15,6 +15,8 @@ import org.newdawn.slick.openal.SoundStore;
 import de.black.core.asset.assets.ARenderableObject;
 import de.black.core.asset.assets.ASCIIPicture;
 import de.black.core.asset.assets.ImagePicture;
+import de.black.core.gameengine.renderer.abstrct.SimpleAbstractAnimationComponent;
+import de.black.core.gameengine.renderer.concrete.ASCIISpriteAnimation;
 import de.black.core.tools.log.LogManager;
 
 public class AssetManager {
@@ -26,13 +28,13 @@ public class AssetManager {
 	 */	
 	@SuppressWarnings("rawtypes")
 	private final Class[] loaders = new Class[] {
-		ImagePicture.class, ASCIIPicture.class, 
+		ASCIISpriteAnimation.class
 	};
 
 	
 	private static AssetManager instance;
 	
-	private Map<String, ARenderableObject> assetBank;
+	private Map<String, SimpleAbstractAnimationComponent> assetBank;
 	private Map<String, Audio> soundBank;
 	
 	public static AssetManager getInstance() {
@@ -42,7 +44,7 @@ public class AssetManager {
 	}
 	
 	public AssetManager() {
-		this.assetBank = new HashMap<String, ARenderableObject>();
+		this.assetBank = new HashMap<String, SimpleAbstractAnimationComponent>();
 		this.soundBank = new HashMap<String, Audio>();
 		SoundStore.get().init();
 		init();
@@ -84,10 +86,10 @@ public class AssetManager {
 	 */
 	@SuppressWarnings("unchecked")
 	private void loadAsset(File file) {
-		ARenderableObject result;
-		for (Class<ARenderableObject> c : loaders) {
+		SimpleAbstractAnimationComponent result;
+		for (Class<SimpleAbstractAnimationComponent> c : loaders) {
 			try {
-				result = (ARenderableObject)c.newInstance();
+				result = (SimpleAbstractAnimationComponent)c.newInstance();
 				/* if loading succeeds exit loading */
 				if (result.load(file.getPath())) {
 					String name = getNameOfAsset(file);
@@ -114,7 +116,7 @@ public class AssetManager {
 		return assetBank.containsKey(key);
 	}
 	
-	public void addAsset(String key, ARenderableObject value) {
+	public void addAsset(String key, SimpleAbstractAnimationComponent value) {
 		
 		if (!assetExits(key)) {
 			assetBank.put(key, value);
@@ -122,7 +124,7 @@ public class AssetManager {
 		
 	}
 	
-	public ARenderableObject getAsset(String key) {
+	public SimpleAbstractAnimationComponent getAsset(String key) {
 		return assetBank.get(key);
 	}
 	

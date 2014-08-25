@@ -1,4 +1,4 @@
-package de.black.core.gameengine.renderer;
+package de.black.core.gameengine.renderer.abstrct;
 
 import java.util.ArrayList;
 
@@ -34,10 +34,11 @@ public abstract class SimpleAbstractAnimationComponent extends ARenderComponent{
 	public void incrementXOffset() {
 		this.xOffset = (this.xOffset + 1) % renderableObjects.get(state).size();
 	}
+	
 	public Rectangle getDefaultRectangle() {
 		return renderableObjects.get(0).get(0).getRectangle();
 	}
 	
-	
+	public abstract boolean load(String filePath);
 
 }
