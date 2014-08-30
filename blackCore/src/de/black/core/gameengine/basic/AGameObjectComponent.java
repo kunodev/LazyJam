@@ -21,4 +21,12 @@ public abstract class AGameObjectComponent {
 	public void onAdded() {
 		// For Components that are initialized, when the gameObject exists
 	}
+	
+	/**
+	 * OverWrite me if your component needs initializationData
+	 * @param val
+	 */
+	public void initWithString(String val) {
+		
+	}
 }

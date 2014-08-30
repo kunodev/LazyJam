@@ -33,5 +33,9 @@ public class GameGameStateWithPhysics extends GameGameState{
 		initWorld();
 		CoreGameContentProvider.initGameObjects(physicsWorld);
 	}
+	
+	public World getWorld() {
+		return physicsWorld;
+	}
 
 }

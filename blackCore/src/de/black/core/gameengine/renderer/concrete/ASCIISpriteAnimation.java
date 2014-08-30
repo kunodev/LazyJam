@@ -11,6 +11,7 @@ import org.newdawn.slick.Color;
 
 import de.black.core.asset.assets.ARenderableObject;
 import de.black.core.asset.assets.ASCIIPicture;
+import de.black.core.asset.manager.AssetManager;
 import de.black.core.gameengine.renderer.abstrct.SimpleAbstractAnimationComponent;
 import de.black.core.tools.text.FontManager;
 
@@ -96,17 +97,17 @@ public class ASCIISpriteAnimation extends SimpleAbstractAnimationComponent {
 	    		currentList = new ArrayList<ASCIIPicture>();
 	    		continue;
 	    	} else {
-	    		currentList.add(loadPic(reader));
+	    		currentList.add(loadPic(reader, line));
 	    	}
 		}
 		this.renderableObjects.add(currentList);		
 	}
 	
-	private ASCIIPicture loadPic(BufferedReader reader) throws IOException {
-		String line;
+	private ASCIIPicture loadPic(BufferedReader reader, String startLine) throws IOException {
+		String line = startLine;
 		String picture = "";
 		ASCIIPicture result = new ASCIIPicture();
-	    while ((line = reader.readLine()) != null) {
+	    do {
 	    	if(line.equals("-")) {
 	    		result.setPicture(picture);
 	    		//TODO: load the font
@@ -115,10 +116,23 @@ public class ASCIISpriteAnimation extends SimpleAbstractAnimationComponent {
 	    	} else {
 	    		picture += line + "\n";
 	    	}
-	    }
+	    } while ((line = reader.readLine()) != null);
 		result.setPicture(picture);
 		//TODO: load the font
 		result.setDrawingFont(FontManager.getInstance().getFontDefinition());
 		return result;
+	}
+	@Override
+	public void initWithString(String val) {
+		SimpleAbstractAnimationComponent preFab = AssetManager.getInstance().getAsset(val);
+		if(preFab instanceof ASCIISpriteAnimation) {
+			ASCIISpriteAnimation preFabTyped = (ASCIISpriteAnimation) preFab;
+			this.overWriteAsset(preFabTyped);
+		}
+	}
+
+	private void overWriteAsset(ASCIISpriteAnimation preFab) {
+		this.renderableObjects = preFab.renderableObjects;
+		this.color = Color.white; //TODO:
 	}
 }

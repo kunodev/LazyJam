@@ -7,6 +7,7 @@ import org.newdawn.slick.geom.Vector2f;
 
 import de.black.core.gamestatemanagement.GameStateManager;
 import de.black.core.gamestatemanagement.concrete.GameGameState;
+import de.black.core.tools.log.LogManager;
 
 public class GameObject {
 
@@ -85,6 +86,18 @@ public class GameObject {
 			return result;
 		}
 		return null;
+	}
+	
+	public void addComponent(AGameObjectComponent comp) {
+		if(comp instanceof ALogicComponent) {
+			this.addLogicComp((ALogicComponent)comp);
+		}else if(comp instanceof ARenderComponent) {
+			this.addRenderComp((ARenderComponent)comp);
+		} else {
+			LogManager.getInstance().log("Unknown AGameobject component!");
+		}
+		
+		
 	}
 	
 

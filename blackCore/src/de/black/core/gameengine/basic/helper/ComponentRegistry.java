@@ -8,6 +8,8 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 import de.black.core.gameengine.basic.AGameObjectComponent;
 import de.black.core.gameengine.basic.ARenderComponent;
@@ -26,7 +28,7 @@ public class ComponentRegistry {
 	
 	private Map<String, Class<? extends AGameObjectComponent>> componentRegistry;
 	public ComponentRegistry() {
-		this.componentRegistry = new HashMap<String, Class<? extends AGameObjectComponent>>();
+		this.componentRegistry = new TreeMap<String, Class<? extends AGameObjectComponent>>();
 		this.loadDefaults();
 	}
 	
@@ -59,8 +61,8 @@ public class ComponentRegistry {
 	}
 	
 	public void loadDefaults() {
-		this.loadComponents("de.black.core.gameengine.logics.concrete");
 		this.loadComponents("de.black.core.gameengine.renderer.concrete");
+		this.loadComponents("de.black.core.gameengine.logics.concrete");
 	}
 
 	/**
@@ -104,6 +106,17 @@ public class ComponentRegistry {
 				}
 		}
 		return classes;
+	}
+	
+	public Set<String> getPossibleComponentNames() {
+//		List<String> names = new ArrayList<String>();
+//		return names;
+		return componentRegistry.keySet();
+	}
+
+	public Class<? extends AGameObjectComponent> getComponentClass(
+			String possibleComponentName) {
+		return this.componentRegistry.get(possibleComponentName);
 	}
 	
 	
