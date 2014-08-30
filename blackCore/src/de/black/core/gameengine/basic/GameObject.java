@@ -99,6 +99,10 @@ public class GameObject {
 		
 		
 	}
+
+	public void selfDestruct() {
+		GameStateManager.getInstance().getGameGameState().removeGameObject(this);
+	}
 	
 
 }

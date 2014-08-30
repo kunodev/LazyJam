@@ -1,5 +1,7 @@
 package de.black.core.gamestatemanagement;
 
+import java.util.List;
+
 import org.newdawn.slick.GameContainer;
 
 import de.black.core.input.IInput;
@@ -13,10 +15,10 @@ import de.black.core.input.IInput;
 public interface IGameState {
 	
 	/**
-	 * Gets the input, decider of what to do on input
+	 * Gets the inputs, decider of what to do on input
 	 * @return
 	 */
-	public IInput getInput();
+	public List<IInput> getInput();
 	
 	/**
 	 * Does update things

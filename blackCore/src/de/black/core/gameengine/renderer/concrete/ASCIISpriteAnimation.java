@@ -101,6 +101,7 @@ public class ASCIISpriteAnimation extends SimpleAbstractAnimationComponent {
 	    	}
 		}
 		this.renderableObjects.add(currentList);		
+		this.color = Color.white;
 	}
 	
 	private ASCIIPicture loadPic(BufferedReader reader, String startLine) throws IOException {

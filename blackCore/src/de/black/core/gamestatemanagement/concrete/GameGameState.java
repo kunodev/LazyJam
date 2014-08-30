@@ -7,12 +7,11 @@ import java.util.Map;
 
 import org.newdawn.slick.GameContainer;
 
-import de.black.core.content.game.CoreGameContentProvider;
 import de.black.core.gameengine.basic.GameObject;
 import de.black.core.gamestatemanagement.AGameState;
-import de.black.core.input.IInput;
 import de.black.core.input.InputConfiguration;
 import de.black.core.input.concrete.GameInput;
+import de.black.core.input.concrete.MouseInput;
 
 public class GameGameState extends AGameState {
 
@@ -20,12 +19,15 @@ public class GameGameState extends AGameState {
 	
 	public List<GameObject> gameObjects;
 	public Map<String, List<GameObject>> taggedGameObjects;
+	private List<GameObject> trash;
 	
 	
 	public GameGameState(GameContainer gc) {
 		super(new GameInput().init(gc.getInput(), new InputConfiguration()));
+		super.addInputHandler(new MouseInput().init(gc.getInput(), new InputConfiguration()));
 		gameObjects = new ArrayList<GameObject>();
 		taggedGameObjects = new HashMap<String, List<GameObject>>();
+		trash = new ArrayList<GameObject>();
 	}
 
 	@Override
@@ -35,6 +37,9 @@ public class GameGameState extends AGameState {
 
 	@Override
 	protected void update(GameContainer gc) {
+		if(!trash.isEmpty()) {
+			gameObjects.removeAll(trash);
+		}
 		gameObjects.stream().forEach(e -> e.onUpdate());
 	}
 
@@ -48,7 +53,7 @@ public class GameGameState extends AGameState {
 	}
 	
 	public void removeGameObject(GameObject go) {
-		gameObjects.remove(go);
+		trash.add(go);
 	}
 	
 	public void init() {
@@ -58,10 +63,7 @@ public class GameGameState extends AGameState {
 
 	public void addGameObject(GameObject gameObject, String tag) {
 		this.addGameObject(gameObject);
-		if(this.taggedGameObjects.get(tag) == null) {
-			this.taggedGameObjects.put(tag, new ArrayList<GameObject>());
-		}
-		this.taggedGameObjects.get(tag).add(gameObject);		
+		this.addTag(gameObject, tag);
 	}
 	
 	public GameObject getFirstTaggedGameObject(String tag) {
@@ -70,6 +72,13 @@ public class GameGameState extends AGameState {
 	
 	public List<GameObject> getTaggedGameObjects(String tag) {
 		return this.taggedGameObjects.get(tag);
+	}
+
+	public void addTag(GameObject gameObject, String tag) {
+		if(this.taggedGameObjects.get(tag) == null) {
+			this.taggedGameObjects.put(tag, new ArrayList<GameObject>());
+		}
+		this.taggedGameObjects.get(tag).add(gameObject);		
 	}
 
 }

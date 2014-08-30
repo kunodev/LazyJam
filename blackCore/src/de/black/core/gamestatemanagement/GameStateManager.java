@@ -6,6 +6,8 @@ import java.util.Map;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
+import de.black.core.gamestatemanagement.concrete.GameGameState;
+
 public class GameStateManager {
 	
 	private Map<Integer, IGameState> gameStates;
@@ -58,4 +60,7 @@ public class GameStateManager {
 		return instance;
 	}
 	
+	public GameGameState getGameGameState() {
+		return (GameGameState) this.gameStates.get(GameGameState.ID);
+	}
 }
