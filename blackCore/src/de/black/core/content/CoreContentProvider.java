@@ -26,7 +26,6 @@ public class CoreContentProvider {
 		GameGameStateWithPhysics game = new GameGameStateWithPhysics(gc);
 		man.addGameState(GameGameState.ID, game);
 		game.init();
-		
 	}
 	
 	public static void initGameObjects(GameContainer gc) {

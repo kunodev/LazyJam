@@ -1,9 +1,9 @@
-package de.black.core.gameengine.basic.helper;
+package de.black.core.tools.vectors;
 
 import org.jbox2d.common.Vec2;
 import org.newdawn.slick.geom.Vector2f;
 
-public class VectorHelper {
+public class VectorConverter {
 	
 	public static final float SCALING_FACTOR = 100f;
 	

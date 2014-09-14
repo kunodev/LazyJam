@@ -4,6 +4,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.tiled.TiledMap;
 
+import de.black.core.constants.Settings;
 import de.black.core.content.game.gameobjects.ComponentFactory;
 import de.black.core.gameengine.basic.GameObject;
 import de.black.core.gameengine.basic.helper.ComponentRegistry;
@@ -11,7 +12,7 @@ import de.black.core.tools.log.LogManager;
 
 public class AMapContentProvider {
 	
-	TiledMap map;
+	public TiledMap map;
 	
 	public AMapContentProvider() {
 		this("map/test.tmx");
@@ -26,6 +27,7 @@ public class AMapContentProvider {
 	}
 	
 	public void init() {
+		Settings.getInstance().putData("TILE_SIZE", map.getTileHeight());
 		for (int gid = 0; gid < map.getObjectGroupCount(); gid++) {
 			for (int oid = 0; oid < map.getObjectCount(gid); oid++) {
 				Vector2f pos = new Vector2f(map.getObjectX(gid, oid), map.getObjectY(gid, oid));

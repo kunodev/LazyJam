@@ -17,17 +17,19 @@ import de.black.core.constants.Tags;
 import de.black.core.gameengine.StupidAnimationComponent;
 import de.black.core.gameengine.basic.GameObject;
 import de.black.core.gameengine.basic.helper.ComponentRegistry;
-import de.black.core.gameengine.basic.helper.VectorHelper;
 import de.black.core.gameengine.logics.concrete.physics.BodyAdaptorComponent;
 import de.black.core.gameengine.renderer.concrete.ASCIISpriteAnimation;
+import de.black.core.gamestatemanagement.GameStateManager;
 import de.black.core.tools.physics.BodyBuilder;
 import de.black.core.tools.physics.FixtureDefBuilder;
+import de.black.core.tools.vectors.VectorConverter;
 
 public class CoreGameContentProvider{
 
 	
 	public static void initGameObjects(World physicsWorld) {
 		AMapContentProvider amap = new AMapContentProvider();
+		GameStateManager.getInstance().getGameGameState().setMap(amap.map);
 		amap.init();
 	}
 }

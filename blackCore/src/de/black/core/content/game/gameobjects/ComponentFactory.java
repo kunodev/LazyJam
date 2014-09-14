@@ -13,8 +13,8 @@ public class ComponentFactory {
 				ComponentRegistry.getInstance().getComponentClass(possibleComponentName);
 		try {
 			AGameObjectComponent result = toInstantianteComponent.newInstance();
-			newGoResult.addComponent(result);
 			result.initWithString(val);
+			newGoResult.addComponent(result);
 		} catch (InstantiationException | IllegalAccessException e) {
 			e.printStackTrace();
 			LogManager.getInstance().log("Error while instantiating component : " + possibleComponentName);

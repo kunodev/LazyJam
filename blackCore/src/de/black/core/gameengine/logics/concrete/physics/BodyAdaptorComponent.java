@@ -7,13 +7,13 @@ import org.jbox2d.dynamics.World;
 import org.newdawn.slick.geom.Rectangle;
 
 import de.black.core.gameengine.basic.ALogicComponent;
-import de.black.core.gameengine.basic.helper.VectorHelper;
 import de.black.core.gameengine.renderer.abstrct.SimpleAbstractAnimationComponent;
 import de.black.core.gamestatemanagement.GameStateManager;
 import de.black.core.gamestatemanagement.concrete.GameGameState;
 import de.black.core.gamestatemanagement.concrete.GameGameStateWithPhysics;
 import de.black.core.tools.log.LogManager;
 import de.black.core.tools.physics.BodyBuilder;
+import de.black.core.tools.vectors.VectorConverter;
 
 public class BodyAdaptorComponent extends ALogicComponent{
 	
@@ -34,19 +34,19 @@ public class BodyAdaptorComponent extends ALogicComponent{
 	public void onUpdate() {
 //		System.out.println("update pre: " + getGameObject().getPos().toString());
 //		System.out.println("update pre: " + body.getPosition());
-		VectorHelper.setSlickVector(getGameObject().getPos(), body.getPosition());
+		VectorConverter.setSlickVector(getGameObject().getPos(), body.getPosition());
 //		System.out.println("update post: " + getGameObject().getPos().toString());
 //		System.out.println("update post: " + body.getPosition());
 	}
 	
 	public void buildBody(BodyBuilder bb) {
-		this.body = bb.withPosition(VectorHelper.createVec2Scaled(getGameObject().getPos().x, getGameObject().getPos().y)).build();
+		this.body = bb.withPosition(VectorConverter.createVec2Scaled(getGameObject().getPos().x, getGameObject().getPos().y)).build();
 	}
 	
 	public void buildBodyWithSpriteCollider(BodyBuilder bb) {
 		Rectangle colliderRectangle = getGameObject().getComponent(SimpleAbstractAnimationComponent.class).getDefaultRectangle();
-		float width = VectorHelper.scaleDown(colliderRectangle.getWidth());
-		float height = VectorHelper.scaleDown(colliderRectangle.getHeight());
+		float width = VectorConverter.scaleDown(colliderRectangle.getWidth());
+		float height = VectorConverter.scaleDown(colliderRectangle.getHeight());
 		this.buildBody(bb.withRectanglePolygonShape(width, height));
 	}
 	

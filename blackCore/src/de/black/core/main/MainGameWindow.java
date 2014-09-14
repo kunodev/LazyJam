@@ -13,6 +13,7 @@ import de.black.core.camera.Cam;
 import de.black.core.constants.Settings;
 import de.black.core.content.CoreContentProvider;
 import de.black.core.gamestatemanagement.GameStateManager;
+import de.black.core.tools.text.FontManager;
 
 
 
@@ -35,7 +36,7 @@ public class MainGameWindow extends BasicGame {
 
 	}
 
-	private MainGameWindow(String gamename) {
+	public MainGameWindow(String gamename) {
 		super(gamename);
 	}
 
@@ -62,14 +63,7 @@ public class MainGameWindow extends BasicGame {
 
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
-//		GameState.getInstance().getMap()
-//			 	 .render(-cam.getX() % Constants.TILE_SIZE,
-//				 		-cam.getY() % Constants.TILE_SIZE,
-//				        cam.getX() / Constants.TILE_SIZE, 
-//				        cam.getY() / Constants.TILE_SIZE,
-//						(Constants.SCREENWIDTH / Constants.TILE_SIZE) + 2,
-//						(Constants.SCREENHEIGHT / Constants.TILE_SIZE) + 2);
-//		
+
 //		GameState.getInstance().renderObjects();
 		GameStateManager.getInstance().render(gc, g);
 //		VNManager.getInstance().renderVN();
@@ -79,6 +73,7 @@ public class MainGameWindow extends BasicGame {
 		cam = new Cam();
 		cam.setX(0);
 		cam.setY(0);
+		FontManager.setCam(cam);
 		return cam;
 	}
 	

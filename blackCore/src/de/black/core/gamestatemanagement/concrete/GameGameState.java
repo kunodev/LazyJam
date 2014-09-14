@@ -1,17 +1,24 @@
 package de.black.core.gamestatemanagement.concrete;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.tiled.TiledMap;
 
+import de.black.core.camera.Cam;
+import de.black.core.constants.Settings;
 import de.black.core.gameengine.basic.GameObject;
 import de.black.core.gamestatemanagement.AGameState;
+import de.black.core.input.IInput;
 import de.black.core.input.InputConfiguration;
 import de.black.core.input.concrete.GameInput;
 import de.black.core.input.concrete.MouseInput;
+import de.black.core.main.MainGameWindow;
 
 public class GameGameState extends AGameState {
 
@@ -19,8 +26,18 @@ public class GameGameState extends AGameState {
 	
 	public List<GameObject> gameObjects;
 	public Map<String, List<GameObject>> taggedGameObjects;
-	private List<GameObject> trash;
-	
+	protected List<GameObject> trash;
+	protected List<GameObject> ingoing;
+	private TiledMap map;
+	private Cam cam;
+
+	public GameGameState(GameContainer gc, IInput input) {
+		super(input);
+		gameObjects = new ArrayList<GameObject>();
+		taggedGameObjects = new HashMap<String, List<GameObject>>();
+		trash = new ArrayList<GameObject>();
+		ingoing = new ArrayList<GameObject>();
+	}
 	
 	public GameGameState(GameContainer gc) {
 		super(new GameInput().init(gc.getInput(), new InputConfiguration()));
@@ -32,6 +49,18 @@ public class GameGameState extends AGameState {
 
 	@Override
 	public void onRender() {
+		if(map != null) {
+			map
+		 	 .render(cam.getX() % Settings.getInstance().getInt("TILE_SIZE"),
+			 		cam.getY() % Settings.getInstance().getInt("TILE_SIZE"),
+			        cam.getX() / Settings.getInstance().getInt("TILE_SIZE"), 
+			        cam.getY() / Settings.getInstance().getInt("TILE_SIZE"),
+					(Settings.getInstance().getInt("SCREENWIDTH") / Settings.getInstance().getInt("TILE_SIZE")) + 2,
+					(Settings.getInstance().getInt("SCREENHEIGHT") / Settings.getInstance().getInt("TILE_SIZE")) + 2);
+////	
+//			map.render(cam.getX(), cam.getY());
+//			map.render(0, 0, 0, 0, 1024, 768);
+		}
 		gameObjects.stream().forEach(e -> e.onRender());
 	}
 
@@ -39,6 +68,14 @@ public class GameGameState extends AGameState {
 	protected void update(GameContainer gc) {
 		if(!trash.isEmpty()) {
 			gameObjects.removeAll(trash);
+			for(Entry<String, List<GameObject>> taggedObjects : this.taggedGameObjects.entrySet()) {
+				taggedObjects.getValue().removeAll(trash);
+			}
+			trash.clear();
+		}
+		if(!ingoing.isEmpty()) {
+			gameObjects.addAll(ingoing);
+			ingoing.clear();
 		}
 		gameObjects.stream().forEach(e -> e.onUpdate());
 	}
@@ -49,7 +86,7 @@ public class GameGameState extends AGameState {
 	}
 	
 	public void addGameObject(GameObject go) {
-		gameObjects.add(go);
+		ingoing.add(go);
 	}
 	
 	public void removeGameObject(GameObject go) {
@@ -71,7 +108,12 @@ public class GameGameState extends AGameState {
 	}
 	
 	public List<GameObject> getTaggedGameObjects(String tag) {
-		return this.taggedGameObjects.get(tag);
+		List<GameObject> result = this.taggedGameObjects.get(tag);
+		if(result == null) {
+			return Collections.emptyList();
+		} else {
+			return result;
+		}
 	}
 
 	public void addTag(GameObject gameObject, String tag) {
@@ -79,6 +121,18 @@ public class GameGameState extends AGameState {
 			this.taggedGameObjects.put(tag, new ArrayList<GameObject>());
 		}
 		this.taggedGameObjects.get(tag).add(gameObject);		
+	}
+
+	public void setMap(TiledMap map) {
+		this.map = map;
+	}
+
+	public Cam getCam() {
+		return cam;
+	}
+
+	public void setCam(Cam cam) {
+		this.cam = cam;
 	}
 
 }

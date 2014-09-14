@@ -5,14 +5,18 @@ import java.util.Map;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.tiled.TiledMap;
 
+import de.black.core.camera.Cam;
+import de.black.core.constants.Settings;
 import de.black.core.gamestatemanagement.concrete.GameGameState;
+import de.black.core.main.MainGameWindow;
 
 public class GameStateManager {
 	
 	private Map<Integer, IGameState> gameStates;
 	IGameState activeState;
-
+	
 	public GameStateManager() {
 		gameStates = new HashMap<Integer, IGameState>();
 	}
@@ -37,7 +41,8 @@ public class GameStateManager {
 	}
 	
 	public <T> T getGameStateAs(Class<T> t) {
-		return t.cast(this.activeState);
+		return t.cast(this.activeState)
+				;
 	}
 	
 	public <T> T getGameStateAs(Class<T> t, int gamestateId) {

@@ -41,4 +41,5 @@ public abstract class SimpleAbstractAnimationComponent extends ARenderComponent{
 	
 	public abstract boolean load(String filePath);
 
+
 }

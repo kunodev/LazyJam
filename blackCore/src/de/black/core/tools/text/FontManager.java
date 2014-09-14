@@ -1,18 +1,12 @@
 package de.black.core.tools.text;
 
-import java.awt.Font;
-import java.awt.GraphicsEnvironment;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.newdawn.slick.Color;
-import org.newdawn.slick.TrueTypeFont;
 
 import de.black.core.camera.Cam;
 import de.black.core.constants.Constants;
-import de.black.core.main.MainGameWindow;
 
 public class FontManager {
 
@@ -23,6 +17,12 @@ public class FontManager {
 			instance = new FontManager();
 		}
 		return instance;
+	}
+
+	private Cam cam;
+	
+	public static void setCam(Cam c) {
+		getInstance().cam = c;
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class FontManager {
 	}
 	
 	public void drawTextRelative(int xoffset, int yoffset, String text, int stateId, Color color) {
-		Cam cam = MainGameWindow.getInstance().getCam();
+		Cam cam = this.cam;
 		fonts.stream()
 				.filter(e -> e.getGameState() == stateId)
 				.forEach(e -> e.getTtfFont().drawString(cam.getX() + xoffset, cam.getY() + yoffset, text, color));
@@ -116,6 +116,14 @@ public class FontManager {
 	public void addAssetFont(FontDefinition fd) {
 		fd.setGameState(--lowestAssetFont);
 		this.fonts.add(fd);
+	}
+
+	public void drawTextAbsolut(float x, float y, String text) {
+		this.drawTextAbsolut((int)x, (int)y, text);		
+	}
+
+	public void drawTextAbsolut(float x, float y, String text, Color color) {
+		this.drawTextAbsolut((int)x, (int)y, text, color);
 	}
 	
 }
