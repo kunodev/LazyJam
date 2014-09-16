@@ -1,6 +1,7 @@
 package de.black.core.gamestatemanagement.concrete;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -19,13 +20,14 @@ import de.black.core.input.InputConfiguration;
 import de.black.core.input.concrete.GameInput;
 import de.black.core.input.concrete.MouseInput;
 import de.black.core.main.MainGameWindow;
+import de.black.core.tools.dua.set.QueueSet;
 
 public class GameGameState extends AGameState {
 
 	public static final int ID = 3;
 	
 	public List<GameObject> gameObjects;
-	public Map<String, List<GameObject>> taggedGameObjects;
+	public Map<String, Collection<GameObject>> taggedGameObjects;
 	protected List<GameObject> trash;
 	protected List<GameObject> ingoing;
 	private TiledMap map;
@@ -34,7 +36,7 @@ public class GameGameState extends AGameState {
 	public GameGameState(GameContainer gc, IInput input) {
 		super(input);
 		gameObjects = new ArrayList<GameObject>();
-		taggedGameObjects = new HashMap<String, List<GameObject>>();
+		taggedGameObjects = new HashMap<String, Collection<GameObject>>();
 		trash = new ArrayList<GameObject>();
 		ingoing = new ArrayList<GameObject>();
 	}
@@ -43,7 +45,7 @@ public class GameGameState extends AGameState {
 		super(new GameInput().init(gc.getInput(), new InputConfiguration()));
 		super.addInputHandler(new MouseInput().init(gc.getInput(), new InputConfiguration()));
 		gameObjects = new ArrayList<GameObject>();
-		taggedGameObjects = new HashMap<String, List<GameObject>>();
+		taggedGameObjects = new HashMap<String, Collection<GameObject>>();
 		trash = new ArrayList<GameObject>();
 	}
 
@@ -68,7 +70,7 @@ public class GameGameState extends AGameState {
 	protected void update(GameContainer gc) {
 		if(!trash.isEmpty()) {
 			gameObjects.removeAll(trash);
-			for(Entry<String, List<GameObject>> taggedObjects : this.taggedGameObjects.entrySet()) {
+			for(Entry<String, Collection<GameObject>> taggedObjects : this.taggedGameObjects.entrySet()) {
 				taggedObjects.getValue().removeAll(trash);
 			}
 			trash.clear();
@@ -107,8 +109,8 @@ public class GameGameState extends AGameState {
 		return this.taggedGameObjects.get(tag).stream().findFirst().get();
 	}
 	
-	public List<GameObject> getTaggedGameObjects(String tag) {
-		List<GameObject> result = this.taggedGameObjects.get(tag);
+	public Collection<GameObject> getTaggedGameObjects(String tag) {
+		Collection<GameObject> result = this.taggedGameObjects.get(tag);
 		if(result == null) {
 			return Collections.emptyList();
 		} else {
@@ -118,7 +120,7 @@ public class GameGameState extends AGameState {
 
 	public void addTag(GameObject gameObject, String tag) {
 		if(this.taggedGameObjects.get(tag) == null) {
-			this.taggedGameObjects.put(tag, new ArrayList<GameObject>());
+			this.taggedGameObjects.put(tag, new QueueSet<GameObject>());
 		}
 		this.taggedGameObjects.get(tag).add(gameObject);		
 	}

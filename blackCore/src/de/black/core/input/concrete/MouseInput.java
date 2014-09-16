@@ -1,5 +1,6 @@
 package de.black.core.input.concrete;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.lwjgl.input.Mouse;
@@ -29,7 +30,7 @@ public class MouseInput implements IInput{
 	@Override
 	public void update() {
 		GameGameState ggs = GameStateManager.getInstance().getGameStateAs(GameGameState.class);
-		List<GameObject> mouseListeners = ggs.getTaggedGameObjects(Tags.MOUSE);
+		Collection<GameObject> mouseListeners = ggs.getTaggedGameObjects(Tags.MOUSE);
 		int mX = input.getMouseX();
 		int mY = input.getMouseY();
 		for(GameObject mouseListener : mouseListeners) {
