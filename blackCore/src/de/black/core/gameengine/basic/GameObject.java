@@ -12,6 +12,7 @@ import de.black.core.tools.log.LogManager;
 public class GameObject {
 
 	private Vector2f pos;
+	private String tag;
 	private List<ALogicComponent> logicComps;
 	private List<ARenderComponent> renderComps;
 	
@@ -20,6 +21,7 @@ public class GameObject {
 	}
 	
 	public GameObject(Vector2f pos, String tag) {
+		this.tag = tag;
 		this.setPos(pos);
 		initLists();
 		GameStateManager.getInstance().getGameStateAs(GameGameState.class, GameGameState.ID).addGameObject(this, tag);
@@ -73,10 +75,6 @@ public class GameObject {
 		comp.onAdded();
 	}
 	
-	public void destroy() {
-		GameStateManager.getInstance().getGameStateAs(GameGameState.class).removeGameObject(this);
-	}
-	
 	public <T>  T getComponent(Class<T> clazz) {
 		if(this.logicComps.stream().filter(l -> clazz.isInstance(l)).count() > 0) {
 			T result = clazz.cast(this.logicComps.stream().filter(l -> clazz.isInstance(l)).findFirst().get());
@@ -101,7 +99,7 @@ public class GameObject {
 	}
 
 	public void selfDestruct() {
-		GameStateManager.getInstance().getGameGameState().removeGameObject(this);
+		GameStateManager.getInstance().getGameGameState().removeGameObject(this, tag);
 	}
 	
 

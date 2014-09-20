@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import de.black.core.gamestatemanagement.GameStateManager;
+
 /**
  * This Class is a "Decorator" to hack ConcurrentModification Exceptions.
  * E.g. the mouseinput update triggers on click, which spawns a new mouselistener => 
@@ -17,13 +19,14 @@ import java.util.List;
  * @param <T>
  */
 
-public class QueueSet<T>  implements Collection<T>{
+public class QueueSet<T>  implements Collection<T>, Runnable{
 	
 	private List<T> ingoing;
 	private List<T> trash;
 	private List<T> data;
 
 	public QueueSet() {
+		GameStateManager.getInstance().getGameGameState().registerUpdateable(this);
 		ingoing = new ArrayList<T>();
 		trash = new ArrayList<T>();
 		data = new ArrayList<T>();
@@ -31,11 +34,11 @@ public class QueueSet<T>  implements Collection<T>{
 	
 	@Override
 	public int size() {
-		update();
 		return data.size();
 	}
 
-	private void update() {
+	@Override
+	public void run() {
 		data.removeAll(trash);
 		trash.clear();
 		data.addAll(ingoing);
@@ -44,7 +47,6 @@ public class QueueSet<T>  implements Collection<T>{
 
 	@Override
 	public boolean isEmpty() {
-		update();
 		return data.isEmpty();
 	}
 
@@ -55,19 +57,16 @@ public class QueueSet<T>  implements Collection<T>{
 
 	@Override
 	public Iterator<T> iterator() {
-		update();
 		return data.iterator();
 	}
 
 	@Override
 	public Object[] toArray() {
-		update();
 		return data.toArray();
 	}
 
 	@Override
 	public <T> T[] toArray(T[] a) {
-		update();
 		return data.toArray(a);
 	}
 
@@ -88,7 +87,6 @@ public class QueueSet<T>  implements Collection<T>{
 
 	@Override
 	public boolean containsAll(Collection<?> c) {
-		update();
 		return data.containsAll(c);
 	}
 

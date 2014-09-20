@@ -13,6 +13,7 @@ import de.black.core.input.IInput;
 public abstract class AGameState implements IGameState{
 
 	protected final List<IInput> inputHandler;
+	protected final List<Runnable> updateAbles; 
 	protected int tick = 0;
 	protected final int TICK_TIME;
 	public Audio bgm;
@@ -21,12 +22,14 @@ public abstract class AGameState implements IGameState{
 		this.inputHandler = new ArrayList<IInput>();
 		this.inputHandler.add(inputHandler);
 		this.TICK_TIME = Constants.DEFAULT_TICK_TIME;
+		this.updateAbles = new ArrayList<Runnable>();
 	}
 	
 	protected AGameState(IInput inputHandler, int TICK_TIME) {
 		this.inputHandler = new ArrayList<IInput>();
 		this.inputHandler.add(inputHandler);
 		this.TICK_TIME = TICK_TIME;
+		this.updateAbles = new ArrayList<Runnable>();
 	}
 	
 	protected abstract void update(GameContainer gc);

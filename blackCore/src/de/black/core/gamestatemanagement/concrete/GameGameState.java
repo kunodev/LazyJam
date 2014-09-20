@@ -7,8 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.tiled.TiledMap;
 
 import de.black.core.camera.Cam;
@@ -21,32 +25,26 @@ import de.black.core.input.concrete.GameInput;
 import de.black.core.input.concrete.MouseInput;
 import de.black.core.main.MainGameWindow;
 import de.black.core.tools.dua.set.QueueSet;
+import de.black.core.tools.vectors.VectorDistanceComparator;
 
 public class GameGameState extends AGameState {
 
 	public static final int ID = 3;
 	
-	public List<GameObject> gameObjects;
+	public Collection<GameObject> gameObjects;
 	public Map<String, Collection<GameObject>> taggedGameObjects;
-	protected List<GameObject> trash;
-	protected List<GameObject> ingoing;
 	private TiledMap map;
 	private Cam cam;
 
 	public GameGameState(GameContainer gc, IInput input) {
 		super(input);
-		gameObjects = new ArrayList<GameObject>();
 		taggedGameObjects = new HashMap<String, Collection<GameObject>>();
-		trash = new ArrayList<GameObject>();
-		ingoing = new ArrayList<GameObject>();
 	}
 	
 	public GameGameState(GameContainer gc) {
 		super(new GameInput().init(gc.getInput(), new InputConfiguration()));
 		super.addInputHandler(new MouseInput().init(gc.getInput(), new InputConfiguration()));
-		gameObjects = new ArrayList<GameObject>();
 		taggedGameObjects = new HashMap<String, Collection<GameObject>>();
-		trash = new ArrayList<GameObject>();
 	}
 
 	@Override
@@ -68,18 +66,10 @@ public class GameGameState extends AGameState {
 
 	@Override
 	protected void update(GameContainer gc) {
-		if(!trash.isEmpty()) {
-			gameObjects.removeAll(trash);
-			for(Entry<String, Collection<GameObject>> taggedObjects : this.taggedGameObjects.entrySet()) {
-				taggedObjects.getValue().removeAll(trash);
-			}
-			trash.clear();
+		updateAbles.stream().forEach(e -> e.run());
+		for(GameObject go : gameObjects) {
+			go.onUpdate();
 		}
-		if(!ingoing.isEmpty()) {
-			gameObjects.addAll(ingoing);
-			ingoing.clear();
-		}
-		gameObjects.stream().forEach(e -> e.onUpdate());
 	}
 
 	@Override
@@ -88,14 +78,18 @@ public class GameGameState extends AGameState {
 	}
 	
 	public void addGameObject(GameObject go) {
-		ingoing.add(go);
+		gameObjects.add(go);
 	}
 	
-	public void removeGameObject(GameObject go) {
-		trash.add(go);
+	public void removeGameObject(GameObject go, String tag) {
+		gameObjects.remove(go);
+		if(tag != null) {
+			taggedGameObjects.get(tag).remove(go);
+		}
 	}
 	
 	public void init() {
+		gameObjects = new QueueSet<GameObject>();
 		//TODO: If used in core Project, give new init method
 //		CoreGameContentProvider.initGameObjects();
 	}
@@ -135,6 +129,46 @@ public class GameGameState extends AGameState {
 
 	public void setCam(Cam cam) {
 		this.cam = cam;
+	}
+	
+	public void registerUpdateable(Runnable r) {
+		this.updateAbles.add(r);
+	}
+	
+	
+	
+	public List<GameObject> getGameObjectsInRange(Vector2f pos, int width, int height) {
+		return getGameObjectsInRange(pos, width, height, gameObjects);
+	}
+	
+	public List<GameObject> getGameObjectsInRange(Vector2f pos, int width, int height, String tag) {
+		Collection<GameObject> tagged = taggedGameObjects.get(tag);
+		if(tagged == null) {
+			return Collections.emptyList();
+		}
+		return getGameObjectsInRange(pos, width, height, tagged );
+	}
+	
+	public List<GameObject> getGameObjectsInRange(Vector2f pos, int width, int height, Collection<GameObject> list) {
+		Rectangle range = new Rectangle(pos.x, pos.y, width, height);
+		Stream<GameObject> filter = list.stream().filter(e -> range.contains(e.getPos().x, e.getPos().y));
+		return filter.collect(Collectors.toList());
+	}
+	
+	public List<GameObject> getClosestGameObject(Vector2f pos) {
+		return getClosestGameObject(pos, gameObjects);
+	}
+	
+	public List<GameObject> getClosestGameObject(Vector2f pos, String tag) {
+		Collection<GameObject> tagged = taggedGameObjects.get(tag);
+		if(tagged == null) {
+			return Collections.emptyList();
+		}
+		return getClosestGameObject(pos, tagged);
+	}
+	
+	public List<GameObject> getClosestGameObject(Vector2f pos, Collection<GameObject> list) {
+		return list.stream().sorted(new VectorDistanceComparator(pos)).collect(Collectors.toList());
 	}
 
 }
