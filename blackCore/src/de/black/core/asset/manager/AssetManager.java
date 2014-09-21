@@ -17,6 +17,7 @@ import de.black.core.asset.assets.ASCIIPicture;
 import de.black.core.asset.assets.ImagePicture;
 import de.black.core.gameengine.renderer.abstrct.SimpleAbstractAnimationComponent;
 import de.black.core.gameengine.renderer.concrete.ASCIISpriteAnimation;
+import de.black.core.gameengine.renderer.concrete.PNGSpriteRendererComponent;
 import de.black.core.tools.log.LogManager;
 
 public class AssetManager {
@@ -28,7 +29,7 @@ public class AssetManager {
 	 */	
 	@SuppressWarnings("rawtypes")
 	private final Class[] loaders = new Class[] {
-		ASCIISpriteAnimation.class
+		ASCIISpriteAnimation.class, PNGSpriteRendererComponent.class
 	};
 
 	
