@@ -30,6 +30,7 @@ public class GameGameStateWithPhysics extends GameGameState{
 	}
 	
 	public void init() {
+		super.init();
 		initWorld();
 		CoreGameContentProvider.initGameObjects(physicsWorld);
 	}

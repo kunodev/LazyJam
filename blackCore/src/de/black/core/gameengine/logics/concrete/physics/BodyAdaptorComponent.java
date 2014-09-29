@@ -44,9 +44,14 @@ public class BodyAdaptorComponent extends ALogicComponent{
 	}
 	
 	public void buildBodyWithSpriteCollider(BodyBuilder bb) {
-		Rectangle colliderRectangle = getGameObject().getComponent(SimpleAbstractAnimationComponent.class).getDefaultRectangle();
-		float width = VectorConverter.scaleDown(colliderRectangle.getWidth());
-		float height = VectorConverter.scaleDown(colliderRectangle.getHeight());
+		SimpleAbstractAnimationComponent comp = getGameObject().getComponent(SimpleAbstractAnimationComponent.class);
+		float width = 0.2f;
+		float height = 0.2f;
+		if(comp != null) {
+			Rectangle coll = comp.getDefaultRectangle();
+			width = VectorConverter.scaleDown(coll.getWidth());
+			height = VectorConverter.scaleDown(coll.getHeight());
+		}
 		this.buildBody(bb.withRectanglePolygonShape(width, height));
 	}
 	

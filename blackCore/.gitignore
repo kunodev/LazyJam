@@ -6,3 +6,4 @@ assets/conversion
 .classpath
 debug.log
 config
+/target/
