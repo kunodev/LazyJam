@@ -6,7 +6,6 @@ import java.util.Map;
 import org.newdawn.slick.GameContainer;
 
 import de.black.core.camera.Cam;
-import de.black.core.content.vn.CoreVNContentProvider;
 import de.black.core.gamestatemanagement.AGameState;
 import de.black.core.gamestatemanagement.GameStateManager;
 import de.black.core.input.InputConfiguration;
@@ -40,9 +39,6 @@ public class VNGameState extends AGameState {
 	public void init() {
 		camera = MainGameWindow.getInstance().getCam();
 		sequenceConfig = new HashMap<Integer, SimpleVNSequence>();
-		for (int i = 0; i < CoreVNContentProvider.getTestSequences().size(); i++) {
-			sequenceConfig.put(("test" + i).hashCode(), CoreVNContentProvider.getTestSequences().get(i));
-		}
 	}
 
 	public void triggerAction(String action, int returningState) {

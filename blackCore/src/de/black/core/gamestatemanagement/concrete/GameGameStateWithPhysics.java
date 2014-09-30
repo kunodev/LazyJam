@@ -4,8 +4,6 @@ import org.jbox2d.callbacks.ContactListener;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 import org.newdawn.slick.GameContainer;
-
-import de.black.core.content.game.CoreGameContentProvider;
 import de.black.core.tools.physics.TestContactListener;
 
 public class GameGameStateWithPhysics extends GameGameState {
@@ -32,7 +30,6 @@ public class GameGameStateWithPhysics extends GameGameState {
 	public void init() {
 		super.init();
 		initWorld();
-		CoreGameContentProvider.initGameObjects(physicsWorld);
 	}
 
 	public World getWorld() {

@@ -3,7 +3,6 @@ package de.black.core.gamestatemanagement.concrete;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 
-import de.black.core.content.menu.CoreMenuContentProvider;
 import de.black.core.gamestatemanagement.AGameState;
 import de.black.core.gamestatemanagement.GameStateManager;
 import de.black.core.input.InputConfiguration;
@@ -29,7 +28,6 @@ public class MenuGameState extends AGameState {
 
 	public MenuGameState(GameContainer gc) {
 		super(new MenuInput().init(gc.getInput(), new InputConfiguration()));
-		menutreeFull = CoreMenuContentProvider.getMenu();
 		selectedOption = 0;
 	}
 

@@ -11,7 +11,6 @@ import org.newdawn.slick.SlickException;
 
 import de.black.core.camera.Cam;
 import de.black.core.constants.Settings;
-import de.black.core.content.CoreContentProvider;
 import de.black.core.gamestatemanagement.GameStateManager;
 import de.black.core.tools.text.FontManager;
 
@@ -43,8 +42,6 @@ public class MainGameWindow extends BasicGame {
 	@Override
 	public void init(GameContainer gc) throws SlickException {
 		cam = initCam();
-
-		CoreContentProvider.initGameStates(gc);
 
 		// pInput = new VNInput();
 		// pInput.init(gc.getInput(), new InputConfiguration());
@@ -85,8 +82,9 @@ public class MainGameWindow extends BasicGame {
 			appgc = new AppGameContainer(MainGameWindow.getInstance());
 			appgc.setDisplayMode(Settings.getInstance().getInt(Settings.SCREEN_WIDTH),
 					Settings.getInstance().getInt(Settings.SCREEN_HEIGHT), false);
-
 			appgc.start();
+			
+			
 		} catch (SlickException ex) {
 			Logger.getLogger(MainGameWindow.class.getName()).log(Level.SEVERE, null, ex);
 		}

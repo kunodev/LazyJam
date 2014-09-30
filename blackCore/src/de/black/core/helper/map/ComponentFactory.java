@@ -1,4 +1,4 @@
-package de.black.core.content.game.gameobjects;
+package de.black.core.helper.map;
 
 import de.black.core.gameengine.basic.AGameObjectComponent;
 import de.black.core.gameengine.basic.GameObject;
