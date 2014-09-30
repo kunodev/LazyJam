@@ -2,6 +2,7 @@ lib/*.jar
 natives/*
 map/*
 bin/*
+.settings
 assets/conversion
 .classpath
 debug.log
