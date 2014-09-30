@@ -1,9 +1,9 @@
 package de.black.core.menu;
 
-public class SimpleGoDeepMenuObject extends SimpleMenuObject{
+public class SimpleGoDeepMenuObject extends SimpleMenuObject {
 
 	public static final int ID = 1;
-	
+
 	public SimpleGoDeepMenuObject(String text) {
 		super(text);
 	}
@@ -12,6 +12,5 @@ public class SimpleGoDeepMenuObject extends SimpleMenuObject{
 	public int getActionID() {
 		return ID;
 	}
-
 
 }

@@ -15,9 +15,6 @@ import de.black.core.content.CoreContentProvider;
 import de.black.core.gamestatemanagement.GameStateManager;
 import de.black.core.tools.text.FontManager;
 
-
-
-
 /**
  * Main class hahahaha
  * 
@@ -28,7 +25,7 @@ public class MainGameWindow extends BasicGame {
 
 	private static MainGameWindow instance;
 	public Cam cam;
-	
+
 	public static MainGameWindow getInstance() {
 		if (instance == null)
 			instance = new MainGameWindow("Black Core Project");
@@ -48,14 +45,12 @@ public class MainGameWindow extends BasicGame {
 		cam = initCam();
 
 		CoreContentProvider.initGameStates(gc);
-		
-		
-		
-//		pInput = new VNInput(); 
-//		pInput.init(gc.getInput(), new InputConfiguration());
-		
+
+		// pInput = new VNInput();
+		// pInput.init(gc.getInput(), new InputConfiguration());
+
 	}
-	
+
 	@Override
 	public void update(GameContainer gc, int deltaInMilliseconds) throws SlickException {
 		GameStateManager.getInstance().update(gc, deltaInMilliseconds);
@@ -64,9 +59,9 @@ public class MainGameWindow extends BasicGame {
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 
-//		GameState.getInstance().renderObjects();
+		// GameState.getInstance().renderObjects();
 		GameStateManager.getInstance().render(gc, g);
-//		VNManager.getInstance().renderVN();
+		// VNManager.getInstance().renderVN();
 	}
 
 	protected Cam initCam() {
@@ -76,25 +71,24 @@ public class MainGameWindow extends BasicGame {
 		FontManager.setCam(cam);
 		return cam;
 	}
-	
+
 	public Cam getCam() {
 		return cam;
 	}
 
 	public static void createMainGameWindow() {
 		try {
-            Settings.getInstance().setFilePath("config/settings.json");
-            Settings.getInstance().load();
-             
-            AppGameContainer appgc;
-            appgc = new AppGameContainer(MainGameWindow.getInstance());
-            appgc.setDisplayMode(Settings.getInstance().getInt(Settings.SCREEN_WIDTH), Settings.getInstance().getInt(Settings.SCREEN_HEIGHT),
-                    false);
+			Settings.getInstance().setFilePath("config/settings.json");
+			Settings.getInstance().load();
+
+			AppGameContainer appgc;
+			appgc = new AppGameContainer(MainGameWindow.getInstance());
+			appgc.setDisplayMode(Settings.getInstance().getInt(Settings.SCREEN_WIDTH),
+					Settings.getInstance().getInt(Settings.SCREEN_HEIGHT), false);
 
 			appgc.start();
 		} catch (SlickException ex) {
-			Logger.getLogger(MainGameWindow.class.getName()).log(Level.SEVERE,
-					null, ex);
+			Logger.getLogger(MainGameWindow.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
 

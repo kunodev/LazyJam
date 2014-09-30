@@ -11,13 +11,13 @@ import de.black.core.gameengine.basic.helper.ComponentRegistry;
 import de.black.core.tools.log.LogManager;
 
 public class AMapContentProvider {
-	
+
 	public TiledMap map;
-	
+
 	public AMapContentProvider() {
 		this("map/test.tmx");
 	}
-	
+
 	public AMapContentProvider(String mapPath) {
 		try {
 			map = new TiledMap(mapPath);
@@ -25,7 +25,7 @@ public class AMapContentProvider {
 			LogManager.getInstance().log("Could not load map" + mapPath + "\n" + e.getStackTrace().toString());
 		}
 	}
-	
+
 	public void init() {
 		Settings.getInstance().putData("TILE_SIZE", map.getTileHeight());
 		for (int gid = 0; gid < map.getObjectGroupCount(); gid++) {
@@ -34,9 +34,9 @@ public class AMapContentProvider {
 				String tag = map.getObjectProperty(gid, oid, "tag", "");
 				GameObject newGoResult = new GameObject(pos, tag);
 				// Simple Component
-				for(String possibleComponentName : ComponentRegistry.getInstance().getPossibleComponentNames()) {
+				for (String possibleComponentName : ComponentRegistry.getInstance().getPossibleComponentNames()) {
 					String val = map.getObjectProperty(gid, oid, possibleComponentName, null);
-					if(val != null) {
+					if (val != null) {
 						ComponentFactory.attachComponent(newGoResult, possibleComponentName, val);
 					}
 				}
@@ -44,6 +44,4 @@ public class AMapContentProvider {
 		}
 	}
 
-	
-	
 }

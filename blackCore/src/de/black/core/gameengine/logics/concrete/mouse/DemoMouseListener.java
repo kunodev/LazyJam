@@ -7,12 +7,12 @@ import de.black.core.gameengine.basic.GameObject;
 import de.black.core.gameengine.logics.abstrct.AMouseListenerComponent;
 import de.black.core.gameengine.logics.concrete.game.SelfDestructionComponent;
 
-public class DemoMouseListener extends AMouseListenerComponent{
+public class DemoMouseListener extends AMouseListenerComponent {
 
-	private static Vector2f offSet = new Vector2f(10f,-10f);
+	private static Vector2f offSet = new Vector2f(10f, -10f);
 
 	public static final String COMPONENT = "demoMouse";
-	
+
 	@Override
 	public void onHover() {
 		Vector2f spawn = new Vector2f(getGameObject().getPos());
@@ -30,5 +30,5 @@ public class DemoMouseListener extends AMouseListenerComponent{
 		click.addRenderComp(AssetManager.getInstance().getAsset("click"));
 		click.addLogicComp(new SelfDestructionComponent());
 	}
-	
+
 }

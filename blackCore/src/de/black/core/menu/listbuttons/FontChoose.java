@@ -8,13 +8,11 @@ public class FontChoose extends AChooseFromList {
 		super(FontManager.getInstance().getCurrentFontName());
 	}
 
-
 	@Override
 	public void right() {
 		FontManager.getInstance().nextFont();
 		this.setText(FontManager.getInstance().getCurrentFontName());
 	}
-	
 
 	@Override
 	public void left() {

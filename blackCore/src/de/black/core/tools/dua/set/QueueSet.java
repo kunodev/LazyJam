@@ -8,19 +8,20 @@ import java.util.List;
 import de.black.core.gamestatemanagement.GameStateManager;
 
 /**
- * This Class is a "Decorator" to hack ConcurrentModification Exceptions.
- * E.g. the mouseinput update triggers on click, which spawns a new mouselistener => 
- * a new object spawns in the list => ConcurrentModification
- * This type of list is made for update-loops, where it is not important, that an update is executed the same
- * moment something is added or something is deleted. 
- * All logics run in single threads anyway. 
+ * This Class is a "Decorator" to hack ConcurrentModification Exceptions. E.g.
+ * the mouseinput update triggers on click, which spawns a new mouselistener =>
+ * a new object spawns in the list => ConcurrentModification This type of list
+ * is made for update-loops, where it is not important, that an update is
+ * executed the same moment something is added or something is deleted. All
+ * logics run in single threads anyway.
+ * 
  * @author kuro
  *
  * @param <T>
  */
 
-public class QueueSet<T>  implements Collection<T>, Runnable{
-	
+public class QueueSet<T> implements Collection<T>, Runnable {
+
 	private List<T> ingoing;
 	private List<T> trash;
 	private List<T> data;
@@ -31,7 +32,7 @@ public class QueueSet<T>  implements Collection<T>, Runnable{
 		trash = new ArrayList<T>();
 		data = new ArrayList<T>();
 	}
-	
+
 	@Override
 	public int size() {
 		return data.size();
@@ -42,7 +43,7 @@ public class QueueSet<T>  implements Collection<T>, Runnable{
 		data.removeAll(trash);
 		trash.clear();
 		data.addAll(ingoing);
-		ingoing.clear();		
+		ingoing.clear();
 	}
 
 	@Override
@@ -79,7 +80,7 @@ public class QueueSet<T>  implements Collection<T>, Runnable{
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean remove(Object o) {
-		if(o != null) {
+		if (o != null) {
 			trash.add((T) o);
 		}
 		return true;
@@ -109,7 +110,7 @@ public class QueueSet<T>  implements Collection<T>, Runnable{
 
 	@Override
 	public void clear() {
-		trash.addAll(data);		
+		trash.addAll(data);
 	}
 
 }

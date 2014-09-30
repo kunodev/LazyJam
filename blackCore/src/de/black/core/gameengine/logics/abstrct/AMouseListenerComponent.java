@@ -9,13 +9,13 @@ public abstract class AMouseListenerComponent extends ALogicComponent {
 
 	@Override
 	public void onUpdate() {
-		//Dont do shit
+		// Dont do shit
 	}
-	
+
 	public abstract void onHover();
-	
+
 	public abstract void onClick();
-	
+
 	@Override
 	public void onAdded() {
 		GameGameState ggs = GameStateManager.getInstance().getGameStateAs(GameGameState.class, GameGameState.ID);

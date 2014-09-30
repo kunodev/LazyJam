@@ -3,10 +3,10 @@ package de.black.core.asset.assets;
 import org.newdawn.slick.geom.Rectangle;
 
 public class SpriteSheet extends ImagePicture {
-	
+
 	public int maxX = 1;
 	public int maxY = 1;
-	
+
 	public SpriteSheet(String file) {
 		super(file);
 	}
@@ -17,7 +17,7 @@ public class SpriteSheet extends ImagePicture {
 		if (this.getPicture() == null) {
 			return new Rectangle(0, 0, 0, 0);
 		}
-		return new Rectangle(0, 0, this.getPicture().getWidth()/maxX, getPicture().getHeight()/maxY);
+		return new Rectangle(0, 0, this.getPicture().getWidth() / maxX, getPicture().getHeight() / maxY);
 	}
 
 }

@@ -15,18 +15,18 @@ import de.black.core.menu.listbuttons.AChooseFromList;
 import de.black.core.tools.dua.trees.TreeNode;
 import de.black.core.tools.text.FontManager;
 
-public class MenuGameState extends AGameState{
+public class MenuGameState extends AGameState {
 
 	private TreeNode<? extends SimpleMenuObject> menutreeFull;
 	/**
 	 * Should always be current.depth+1 in the tree
 	 */
 	private int selectedOption;
-	
+
 	public static final int ID = 1;
 	public static final int CONSTANT_OFFSET_X = 50;
 	public static final int CONSTANT_OFFSET_Y = 50;
-	
+
 	public MenuGameState(GameContainer gc) {
 		super(new MenuInput().init(gc.getInput(), new InputConfiguration()));
 		menutreeFull = CoreMenuContentProvider.getMenu();
@@ -36,15 +36,18 @@ public class MenuGameState extends AGameState{
 	@Override
 	public void onRender() {
 		// draw title
-		FontManager.getInstance().drawTextRelative(CONSTANT_OFFSET_X, CONSTANT_OFFSET_Y, menutreeFull.getObject().getText(), Color.white);
-		// draw options 
+		FontManager.getInstance().drawTextRelative(CONSTANT_OFFSET_X, CONSTANT_OFFSET_Y,
+				menutreeFull.getObject().getText(), Color.white);
+		// draw options
 		int offsetMultiplicator = 2;
-		for(int i=0; i< menutreeFull.getChildren().size(); i++) {
+		for (int i = 0; i < menutreeFull.getChildren().size(); i++) {
 			TreeNode<? extends SimpleMenuObject> option = menutreeFull.getChildren().get(i);
-			if(i == selectedOption) {
-				FontManager.getInstance().drawTextRelative(CONSTANT_OFFSET_X, CONSTANT_OFFSET_Y * offsetMultiplicator, option.getObject().getText(), Color.green);
+			if (i == selectedOption) {
+				FontManager.getInstance().drawTextRelative(CONSTANT_OFFSET_X, CONSTANT_OFFSET_Y * offsetMultiplicator,
+						option.getObject().getText(), Color.green);
 			} else {
-				FontManager.getInstance().drawTextRelative(CONSTANT_OFFSET_X, CONSTANT_OFFSET_Y * offsetMultiplicator, option.getObject().getText(), Color.white);
+				FontManager.getInstance().drawTextRelative(CONSTANT_OFFSET_X, CONSTANT_OFFSET_Y * offsetMultiplicator,
+						option.getObject().getText(), Color.white);
 			}
 			offsetMultiplicator++;
 		}
@@ -52,40 +55,41 @@ public class MenuGameState extends AGameState{
 
 	@Override
 	protected void update(GameContainer gc) {
-		// Nothing happens from within a menu locally, therefore => nothing happens here
+		// Nothing happens from within a menu locally, therefore => nothing
+		// happens here
 	}
 
 	public void clickOkay() {
 		TreeNode<? extends SimpleMenuObject> option = menutreeFull.getChildren().get(selectedOption);
-		switch(option.getObject().getActionID()) {
+		switch (option.getObject().getActionID()) {
 		case SimpleGoDeepMenuObject.ID:
-			if(!option.isLeaf()) {
+			if (!option.isLeaf()) {
 				menutreeFull = option;
 			}
 			break;
 		case GameStateChanger.ID:
 			GameStateChanger changer = (GameStateChanger) (option.getObject());
-			if(changer.hasVN()) {
-				this.triggerVN(changer.getVNChange(), changer.getGameStateID());	
+			if (changer.hasVN()) {
+				this.triggerVN(changer.getVNChange(), changer.getGameStateID());
 			} else {
-				GameStateManager.getInstance().setGameState(changer.getGameStateID());				
+				GameStateManager.getInstance().setGameState(changer.getGameStateID());
 			}
 			break;
 		case AChooseFromList.ID:
 			break;
 		}
 	}
-	
+
 	public void pressSide(boolean left) {
 		TreeNode<? extends SimpleMenuObject> option = menutreeFull.getChildren().get(selectedOption);
-		switch(option.getObject().getActionID()) {
+		switch (option.getObject().getActionID()) {
 		case SimpleGoDeepMenuObject.ID:
 			break;
 		case GameStateChanger.ID:
 			break;
 		case AChooseFromList.ID:
 			AChooseFromList listOption = option.getObjectAs(AChooseFromList.class);
-			if(left) {
+			if (left) {
 				listOption.left();
 			} else {
 				listOption.right();
@@ -95,20 +99,20 @@ public class MenuGameState extends AGameState{
 	}
 
 	public void clickCancel() {
-		if(!menutreeFull.isRoot()) {
-			menutreeFull = menutreeFull.getParent();			
+		if (!menutreeFull.isRoot()) {
+			menutreeFull = menutreeFull.getParent();
 		}
 	}
 
 	public void down() {
 		selectedOption++;
-		selectedOption%=menutreeFull.getChildren().size();
+		selectedOption %= menutreeFull.getChildren().size();
 	}
 
 	public void up() {
 		selectedOption--;
-		if(selectedOption < 0) {
-			selectedOption = menutreeFull.getChildren().size()-1;
+		if (selectedOption < 0) {
+			selectedOption = menutreeFull.getChildren().size() - 1;
 		}
 	}
 
@@ -117,5 +121,4 @@ public class MenuGameState extends AGameState{
 		return ID;
 	}
 
-	
 }

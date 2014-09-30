@@ -8,17 +8,15 @@ import de.black.core.input.IInput;
 import de.black.core.input.InputConfiguration;
 import de.black.core.input.InputConfiguration.InputCommand;
 
-
-
-public class VNInput implements IInput{
+public class VNInput implements IInput {
 	private Input input;
 	private InputConfiguration config;
-	
+
 	public static float speed = 5f;
-	
+
 	public void update() {
-		VNGameState man =  GameStateManager.getInstance().getGameStateAs(VNGameState.class);
-		if(input.isKeyPressed(config.commandToKeyCodeMap.get(InputCommand.CONFIRM))) {
+		VNGameState man = GameStateManager.getInstance().getGameStateAs(VNGameState.class);
+		if (input.isKeyPressed(config.commandToKeyCodeMap.get(InputCommand.CONFIRM))) {
 			man.triggerNext();
 		}
 	}
@@ -29,6 +27,5 @@ public class VNInput implements IInput{
 		this.input = i;
 		return this;
 	}
-
 
 }

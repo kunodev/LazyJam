@@ -8,11 +8,11 @@ import de.black.core.input.IInput;
 import de.black.core.input.InputConfiguration;
 import de.black.core.input.InputConfiguration.InputCommand;
 
-public class MenuInput implements IInput{
+public class MenuInput implements IInput {
 
 	Input input;
 	InputConfiguration config;
-	
+
 	@Override
 	public IInput init(Input i, InputConfiguration config) {
 		this.input = i;
@@ -23,25 +23,25 @@ public class MenuInput implements IInput{
 	@Override
 	public void update() {
 		MenuGameState menu = GameStateManager.getInstance().getGameStateAs(MenuGameState.class);
-		
-		if(input.isKeyPressed(config.commandToKeyCodeMap.get(InputCommand.CONFIRM))) {
+
+		if (input.isKeyPressed(config.commandToKeyCodeMap.get(InputCommand.CONFIRM))) {
 			menu.clickOkay();
 		}
-		if(input.isKeyPressed(config.commandToKeyCodeMap.get(InputCommand.CANCEL))) {
+		if (input.isKeyPressed(config.commandToKeyCodeMap.get(InputCommand.CANCEL))) {
 			menu.clickCancel();
 		}
-		if(input.isKeyPressed(config.commandToKeyCodeMap.get(InputCommand.DOWN))) {
+		if (input.isKeyPressed(config.commandToKeyCodeMap.get(InputCommand.DOWN))) {
 			menu.down();
-		}	
-		if(input.isKeyPressed(config.commandToKeyCodeMap.get(InputCommand.UP))) {
+		}
+		if (input.isKeyPressed(config.commandToKeyCodeMap.get(InputCommand.UP))) {
 			menu.up();
 		}
-		if(input.isKeyPressed(config.commandToKeyCodeMap.get(InputCommand.LEFT))) {
+		if (input.isKeyPressed(config.commandToKeyCodeMap.get(InputCommand.LEFT))) {
 			menu.pressSide(true);
 		}
-		if(input.isKeyPressed(config.commandToKeyCodeMap.get(InputCommand.RIGHT))) {
+		if (input.isKeyPressed(config.commandToKeyCodeMap.get(InputCommand.RIGHT))) {
 			menu.pressSide(false);
 		}
-		
+
 	}
 }

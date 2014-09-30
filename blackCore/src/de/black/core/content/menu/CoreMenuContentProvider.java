@@ -2,7 +2,6 @@ package de.black.core.content.menu;
 
 import de.black.core.gamestatemanagement.concrete.GameGameState;
 import de.black.core.gamestatemanagement.concrete.MenuGameState;
-import de.black.core.gamestatemanagement.concrete.VNGameState;
 import de.black.core.menu.GameStateChanger;
 import de.black.core.menu.SimpleGoDeepMenuObject;
 import de.black.core.menu.SimpleMenuObject;
@@ -10,12 +9,12 @@ import de.black.core.menu.listbuttons.FontChoose;
 import de.black.core.tools.dua.trees.TreeNode;
 
 public class CoreMenuContentProvider {
-	
+
 	public static final String FIRST_MENU_OPTION_STRING = "Black Core Project: Main Menu";
-	
+
 	public static TreeNode<? extends SimpleMenuObject> getMenu() {
 		SimpleMenuObject root = new SimpleGoDeepMenuObject(FIRST_MENU_OPTION_STRING);
-		SimpleMenuObject testVN = new GameStateChanger("VNTest","test0",MenuGameState.ID);
+		SimpleMenuObject testVN = new GameStateChanger("VNTest", "test0", MenuGameState.ID);
 		SimpleMenuObject testFont = new FontChoose();
 		SimpleMenuObject submenu = new SimpleGoDeepMenuObject("Submenu!");
 		SimpleMenuObject subsubmenu = new SimpleGoDeepMenuObject("Some option");
@@ -34,9 +33,7 @@ public class CoreMenuContentProvider {
 		rootTree.addChild(startGameTree);
 		submenuTree.addChild(subsubmenuTree);
 		submenuTree.addChild(subsubmenu2Tree);
-		return rootTree;		
+		return rootTree;
 	}
-	
-	
-	
+
 }

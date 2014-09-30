@@ -8,16 +8,16 @@ import org.newdawn.slick.GameContainer;
 import de.black.core.content.game.CoreGameContentProvider;
 import de.black.core.tools.physics.TestContactListener;
 
-public class GameGameStateWithPhysics extends GameGameState{
-	
+public class GameGameStateWithPhysics extends GameGameState {
+
 	protected World physicsWorld;
-	protected Vec2 gravity = new Vec2(0f,0.03f);
+	protected Vec2 gravity = new Vec2(0f, 0.03f);
 	protected ContactListener cl;
 
 	public GameGameStateWithPhysics(GameContainer gc) {
 		super(gc);
 	}
-	
+
 	protected void initWorld() {
 		physicsWorld = new World(gravity);
 		cl = new TestContactListener();
@@ -28,13 +28,13 @@ public class GameGameStateWithPhysics extends GameGameState{
 		super.update(gc);
 		physicsWorld.step(1f, 6, 2);
 	}
-	
+
 	public void init() {
 		super.init();
 		initWorld();
 		CoreGameContentProvider.initGameObjects(physicsWorld);
 	}
-	
+
 	public World getWorld() {
 		return physicsWorld;
 	}

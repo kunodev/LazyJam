@@ -7,10 +7,9 @@ import de.black.core.tools.log.LogManager;
 
 public class ComponentFactory {
 
-	public static void attachComponent(GameObject newGoResult,
-			String possibleComponentName, String val) {
-		Class<? extends AGameObjectComponent> toInstantianteComponent = 
-				ComponentRegistry.getInstance().getComponentClass(possibleComponentName);
+	public static void attachComponent(GameObject newGoResult, String possibleComponentName, String val) {
+		Class<? extends AGameObjectComponent> toInstantianteComponent = ComponentRegistry.getInstance()
+				.getComponentClass(possibleComponentName);
 		try {
 			AGameObjectComponent result = toInstantianteComponent.newInstance();
 			newGoResult.addComponent(result);
@@ -19,6 +18,6 @@ public class ComponentFactory {
 			e.printStackTrace();
 			LogManager.getInstance().log("Error while instantiating component : " + possibleComponentName);
 		}
-		
+
 	}
 }

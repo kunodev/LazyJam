@@ -1,30 +1,29 @@
 package de.black.core.asset.assets;
 
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
 public class ImagePicture extends ARenderableObject {
-	
+
 	private Image picture;
-		
+
 	public ImagePicture() {
-		
+
 	}
-	
+
 	public ImagePicture(String path) {
-		
+
 		this.load(path);
 	}
-	
+
 	public Image getPicture() {
 		return picture;
 	}
-	
+
 	public void setPicture(Image pic) {
 		this.picture = pic;
 	}
-	
+
 	@Override
 	public Rectangle getRectangle() {
 		// TODO Auto-generated method stub
@@ -38,7 +37,7 @@ public class ImagePicture extends ARenderableObject {
 		try {
 			this.picture = new Image(path);
 		} catch (Exception e) {
-			//e.printStackTrace();
+			// e.printStackTrace();
 			return false;
 		}
 		return true;

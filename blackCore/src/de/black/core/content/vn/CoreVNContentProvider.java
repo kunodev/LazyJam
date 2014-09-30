@@ -1,6 +1,5 @@
 package de.black.core.content.vn;
 
-import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,9 +13,9 @@ import de.black.core.tools.vnengine.VNFrame;
 public class CoreVNContentProvider {
 	public static List<SimpleVNSequence> getTestSequences() {
 		ArrayList<SimpleVNSequence> testSequences = new ArrayList<SimpleVNSequence>();
-		
+
 		SimpleVNSequence test1 = new SimpleVNSequence();
-		
+
 		VNFrame frame1 = new VNFrame();
 		VNFrame frame2 = new VNFrame();
 		frame1.text = "So it begins...";
@@ -32,11 +31,11 @@ public class CoreVNContentProvider {
 		}
 		test1.addFrame(frame1);
 		test1.addFrame(frame2);
-		
+
 		testSequences.add(test1);
-		
+
 		SimpleVNSequence game1 = new SimpleVNSequence();
-		
+
 		VNFrame frame3 = new VNFrame();
 		frame3.character = new Animation();
 		try {
@@ -47,7 +46,7 @@ public class CoreVNContentProvider {
 		frame3.text = "TUNA KITTEN! THE GAME";
 		game1.addFrame(frame3);
 		testSequences.add(game1);
-		
+
 		return testSequences;
 	}
 }
