@@ -6,7 +6,7 @@ import org.newdawn.slick.Input;
 import de.kuno.lazyjam.constants.Tags;
 import de.kuno.lazyjam.gameengine.basic.GameObject;
 import de.kuno.lazyjam.gameengine.logics.concrete.physics.BodyAdaptorComponent;
-import de.kuno.lazyjam.gamestatemanagement.GameStateManager;
+import de.kuno.lazyjam.gamestatemanagement.GameStateContextManager;
 import de.kuno.lazyjam.gamestatemanagement.concrete.GameGameState;
 import de.kuno.lazyjam.input.IInput;
 import de.kuno.lazyjam.input.InputConfiguration;
@@ -29,7 +29,7 @@ public class GameInput implements IInput {
 
 	@Override
 	public void update() {
-		GameGameState ggs = GameStateManager.getInstance().getGameStateAs(GameGameState.class);
+		GameGameState ggs = GameStateContextManager.getInstance().getGameStateAs(GameGameState.class);
 		GameObject player = ggs.getFirstTaggedGameObject(Tags.PLAYER);
 		BodyAdaptorComponent bodycomp = player.getComponent(BodyAdaptorComponent.class);
 		if (input.isKeyDown(config.commandToKeyCodeMap.get(InputCommand.LEFT))) {

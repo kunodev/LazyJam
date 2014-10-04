@@ -11,7 +11,7 @@ import org.newdawn.slick.SlickException;
 
 import de.kuno.lazyjam.camera.Cam;
 import de.kuno.lazyjam.constants.Settings;
-import de.kuno.lazyjam.gamestatemanagement.GameStateManager;
+import de.kuno.lazyjam.gamestatemanagement.GameStateContextManager;
 import de.kuno.lazyjam.tools.text.FontManager;
 
 /**
@@ -50,14 +50,14 @@ public class MainGameWindow extends BasicGame {
 
 	@Override
 	public void update(GameContainer gc, int deltaInMilliseconds) throws SlickException {
-		GameStateManager.getInstance().update(gc, deltaInMilliseconds);
+		GameStateContextManager.getInstance().update(gc, deltaInMilliseconds);
 	}
 
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 
 		// GameState.getInstance().renderObjects();
-		GameStateManager.getInstance().render(gc, g);
+		GameStateContextManager.getInstance().render(gc, g);
 		// VNManager.getInstance().renderVN();
 	}
 

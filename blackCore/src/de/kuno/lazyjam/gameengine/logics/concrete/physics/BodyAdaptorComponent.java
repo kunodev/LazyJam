@@ -8,7 +8,7 @@ import org.newdawn.slick.geom.Rectangle;
 
 import de.kuno.lazyjam.gameengine.basic.ALogicComponent;
 import de.kuno.lazyjam.gameengine.renderer.abstrct.SimpleAbstractAnimationComponent;
-import de.kuno.lazyjam.gamestatemanagement.GameStateManager;
+import de.kuno.lazyjam.gamestatemanagement.GameStateContextManager;
 import de.kuno.lazyjam.gamestatemanagement.concrete.GameGameState;
 import de.kuno.lazyjam.gamestatemanagement.concrete.GameGameStateWithPhysics;
 import de.kuno.lazyjam.tools.physics.BodyBuilder;
@@ -61,7 +61,7 @@ public class BodyAdaptorComponent extends ALogicComponent {
 	}
 
 	public void initWithString(String string) {
-		World w = GameStateManager.getInstance().getGameStateAs(GameGameStateWithPhysics.class, GameGameState.ID)
+		World w = GameStateContextManager.getInstance().getGameStateAs(GameGameStateWithPhysics.class)
 				.getWorld();
 		if (string.equals("simple")) {
 			BodyBuilder simpleBuilder = BodyBuilder.getBodyBuilder(w).withAwake(true).withActive(true)

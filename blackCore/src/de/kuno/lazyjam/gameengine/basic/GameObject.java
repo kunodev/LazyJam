@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.newdawn.slick.geom.Vector2f;
 
-import de.kuno.lazyjam.gamestatemanagement.GameStateManager;
+import de.kuno.lazyjam.gamestatemanagement.GameStateContextManager;
 import de.kuno.lazyjam.gamestatemanagement.concrete.GameGameState;
 import de.kuno.lazyjam.tools.log.LogManager;
 
@@ -24,7 +24,7 @@ public class GameObject {
 		this.tag = tag;
 		this.setPos(pos);
 		initLists();
-		GameStateManager.getInstance().getGameStateAs(GameGameState.class, GameGameState.ID).addGameObject(this, tag);
+		GameStateContextManager.getInstance().getGameStateAs(GameGameState.class).addGameObject(this, tag);
 	}
 
 	public GameObject(Vector2f pos, List<ARenderComponent> renderComps, List<ALogicComponent> logicComp) {
@@ -98,7 +98,7 @@ public class GameObject {
 	}
 
 	public void selfDestruct() {
-		GameStateManager.getInstance().getGameGameState().removeGameObject(this, tag);
+		GameStateContextManager.getInstance().getMainGameState(GameGameState.class).removeGameObject(this, tag);
 	}
 
 }

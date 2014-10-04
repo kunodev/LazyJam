@@ -1,5 +1,8 @@
 package de.kuno.lazyjam.camera;
 
+import de.kuno.lazyjam.tools.cdi.annotations.Service;
+
+@Service
 public class Cam {
 
 	public Integer x;

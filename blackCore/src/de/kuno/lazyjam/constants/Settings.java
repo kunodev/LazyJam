@@ -12,8 +12,10 @@ import java.io.OutputStreamWriter;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import de.kuno.lazyjam.tools.cdi.annotations.Service;
 import de.kuno.lazyjam.tools.log.LogManager;
 
+@Service
 public class Settings {
 
 	public static Settings instance;

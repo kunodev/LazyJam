@@ -5,7 +5,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import de.kuno.lazyjam.gamestatemanagement.GameStateManager;
+import de.kuno.lazyjam.gamestatemanagement.GameStateContextManager;
+import de.kuno.lazyjam.gamestatemanagement.concrete.GameGameState;
 
 /**
  * This Class is a "Decorator" to hack ConcurrentModification Exceptions. E.g.
@@ -27,7 +28,7 @@ public class QueueSet<T> implements Collection<T>, Runnable {
 	private List<T> data;
 
 	public QueueSet() {
-		GameStateManager.getInstance().getGameGameState().registerUpdateable(this);
+		GameStateContextManager.getInstance().getMainGameState(GameGameState.class).registerUpdateable(this);
 		ingoing = new ArrayList<T>();
 		trash = new ArrayList<T>();
 		data = new ArrayList<T>();

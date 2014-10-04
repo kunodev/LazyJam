@@ -2,7 +2,7 @@ package de.kuno.lazyjam.input.concrete;
 
 import org.newdawn.slick.Input;
 
-import de.kuno.lazyjam.gamestatemanagement.GameStateManager;
+import de.kuno.lazyjam.gamestatemanagement.GameStateContextManager;
 import de.kuno.lazyjam.gamestatemanagement.concrete.MenuGameState;
 import de.kuno.lazyjam.input.IInput;
 import de.kuno.lazyjam.input.InputConfiguration;
@@ -22,7 +22,7 @@ public class MenuInput implements IInput {
 
 	@Override
 	public void update() {
-		MenuGameState menu = GameStateManager.getInstance().getGameStateAs(MenuGameState.class);
+		MenuGameState menu = GameStateContextManager.getInstance().getGameStateAs(MenuGameState.class);
 
 		if (input.isKeyPressed(config.commandToKeyCodeMap.get(InputCommand.CONFIRM))) {
 			menu.clickOkay();

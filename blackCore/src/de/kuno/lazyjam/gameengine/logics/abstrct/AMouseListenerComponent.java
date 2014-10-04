@@ -2,7 +2,7 @@ package de.kuno.lazyjam.gameengine.logics.abstrct;
 
 import de.kuno.lazyjam.constants.Tags;
 import de.kuno.lazyjam.gameengine.basic.ALogicComponent;
-import de.kuno.lazyjam.gamestatemanagement.GameStateManager;
+import de.kuno.lazyjam.gamestatemanagement.GameStateContextManager;
 import de.kuno.lazyjam.gamestatemanagement.concrete.GameGameState;
 
 public abstract class AMouseListenerComponent extends ALogicComponent {
@@ -18,7 +18,7 @@ public abstract class AMouseListenerComponent extends ALogicComponent {
 
 	@Override
 	public void onAdded() {
-		GameGameState ggs = GameStateManager.getInstance().getGameStateAs(GameGameState.class, GameGameState.ID);
+		GameGameState ggs = GameStateContextManager.getInstance().getGameStateAs(GameGameState.class);
 		ggs.addTag(this.getGameObject(), Tags.MOUSE);
 	}
 

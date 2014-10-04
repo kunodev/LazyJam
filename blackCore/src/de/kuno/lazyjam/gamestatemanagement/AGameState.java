@@ -7,27 +7,20 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.openal.Audio;
 
 import de.kuno.lazyjam.constants.Constants;
-import de.kuno.lazyjam.gamestatemanagement.concrete.VNGameState;
-import de.kuno.lazyjam.input.IInput;
 
 public abstract class AGameState implements IGameState {
 
-	protected final List<IInput> inputHandler;
 	protected final List<Runnable> updateAbles;
 	protected int tick = 0;
 	protected final int TICK_TIME;
 	public Audio bgm;
 
-	protected AGameState(IInput inputHandler) {
-		this.inputHandler = new ArrayList<IInput>();
-		this.inputHandler.add(inputHandler);
+	protected AGameState() {
 		this.TICK_TIME = Constants.DEFAULT_TICK_TIME;
 		this.updateAbles = new ArrayList<Runnable>();
 	}
 
-	protected AGameState(IInput inputHandler, int TICK_TIME) {
-		this.inputHandler = new ArrayList<IInput>();
-		this.inputHandler.add(inputHandler);
+	protected AGameState(int TICK_TIME) {
 		this.TICK_TIME = TICK_TIME;
 		this.updateAbles = new ArrayList<Runnable>();
 	}
@@ -39,7 +32,6 @@ public abstract class AGameState implements IGameState {
 		startBGM();
 		tick += deltaInMilliseconds;
 		if (tick >= TICK_TIME) {
-			getInput().stream().forEach(e -> e.update());
 			update(gc);
 			tick = 0;
 		}
@@ -61,25 +53,7 @@ public abstract class AGameState implements IGameState {
 	}
 
 	@Override
-	public List<IInput> getInput() {
-		return inputHandler;
-	}
-
-	@Override
 	public int getTickTimer() {
 		return Constants.DEFAULT_TICK_TIME;
 	}
-
-	public abstract int getGameStateID();
-
-	public void triggerVN(String key, int gameStateId) {
-		GameStateManager.getInstance().setGameState(VNGameState.ID);
-		GameStateManager.getInstance().getGameStateAs(VNGameState.class).triggerAction(key, gameStateId);
-	}
-
-	public void addInputHandler(IInput inputHandler) {
-		this.inputHandler.add(inputHandler);
-
-	}
-
 }

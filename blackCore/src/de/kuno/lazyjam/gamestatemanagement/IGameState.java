@@ -1,10 +1,6 @@
 package de.kuno.lazyjam.gamestatemanagement;
 
-import java.util.List;
-
 import org.newdawn.slick.GameContainer;
-
-import de.kuno.lazyjam.input.IInput;
 
 /**
  * Defines a gamestate Interesting is what happens on the input and how often
@@ -14,13 +10,6 @@ import de.kuno.lazyjam.input.IInput;
  *
  */
 public interface IGameState {
-
-	/**
-	 * Gets the inputs, decider of what to do on input
-	 * 
-	 * @return
-	 */
-	public List<IInput> getInput();
 
 	/**
 	 * Does update things

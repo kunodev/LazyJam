@@ -17,30 +17,17 @@ import de.kuno.lazyjam.camera.Cam;
 import de.kuno.lazyjam.constants.Settings;
 import de.kuno.lazyjam.gameengine.basic.GameObject;
 import de.kuno.lazyjam.gamestatemanagement.AGameState;
-import de.kuno.lazyjam.input.IInput;
-import de.kuno.lazyjam.input.InputConfiguration;
-import de.kuno.lazyjam.input.concrete.GameInput;
-import de.kuno.lazyjam.input.concrete.MouseInput;
 import de.kuno.lazyjam.tools.dua.set.QueueSet;
 import de.kuno.lazyjam.tools.vectors.VectorDistanceComparator;
 
 public class GameGameState extends AGameState {
 
-	public static final int ID = 3;
-
 	public Collection<GameObject> gameObjects;
 	public Map<String, Collection<GameObject>> taggedGameObjects;
 	private TiledMap map;
 	private Cam cam;
-
-	public GameGameState(GameContainer gc, IInput input) {
-		super(input);
-		taggedGameObjects = new HashMap<String, Collection<GameObject>>();
-	}
-
+	
 	public GameGameState(GameContainer gc) {
-		super(new GameInput().init(gc.getInput(), new InputConfiguration()));
-		super.addInputHandler(new MouseInput().init(gc.getInput(), new InputConfiguration()));
 		taggedGameObjects = new HashMap<String, Collection<GameObject>>();
 	}
 
@@ -66,11 +53,6 @@ public class GameGameState extends AGameState {
 		for (GameObject go : gameObjects) {
 			go.onUpdate();
 		}
-	}
-
-	@Override
-	public int getGameStateID() {
-		return ID;
 	}
 
 	public void addGameObject(GameObject go) {

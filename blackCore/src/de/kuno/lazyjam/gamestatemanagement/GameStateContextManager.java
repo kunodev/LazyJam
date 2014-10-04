@@ -6,18 +6,17 @@ import java.util.Map;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
-import de.kuno.lazyjam.gamestatemanagement.concrete.GameGameState;
+public class GameStateContextManager {
 
-public class GameStateManager {
-
-	private Map<Integer, IGameState> gameStates;
+	private Map<Class<? extends IGameState>, IGameState> gameStates;
 	IGameState activeState;
+	IGameState mainState;
 
-	public GameStateManager() {
-		gameStates = new HashMap<Integer, IGameState>();
+	public GameStateContextManager() {
+		gameStates = new HashMap<Class<? extends IGameState>, IGameState>();
 	}
 
-	public void addGameState(int key, IGameState state) {
+	public void addGameState(Class<? extends IGameState> key, IGameState state) {
 		if (gameStates.containsKey(key)) {
 			System.err.println("Key " + key + " is duplicated!");
 			return;
@@ -25,11 +24,11 @@ public class GameStateManager {
 		this.gameStates.put(key, state);
 	}
 
-	public void setGameState(int key) {
+	public void setGameState(Class<? extends IGameState> class1) {
 		if (this.activeState != null) {
 			activeState.onLeaveState();
 		}
-		this.activeState = gameStates.get(key);
+		this.activeState = gameStates.get(class1);
 	}
 
 	public IGameState getGameState() {
@@ -52,16 +51,16 @@ public class GameStateManager {
 		activeState.onUpdate(gc, deltaInMilliseconds);
 	}
 
-	private static GameStateManager instance;
+	private static GameStateContextManager instance;
 
-	public static GameStateManager getInstance() {
+	public static GameStateContextManager getInstance() {
 		if (instance == null) {
-			instance = new GameStateManager();
+			instance = new GameStateContextManager();
 		}
 		return instance;
 	}
 
-	public GameGameState getGameGameState() {
-		return (GameGameState) this.gameStates.get(GameGameState.ID);
+	public <T extends IGameState> T getMainGameState(Class<T> clazz) {
+		return clazz.cast(mainState);
 	}
 }
