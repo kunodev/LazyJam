@@ -1,22 +1,22 @@
 package de.kuno.lazyjam.gameengine.logics.concrete.game;
 
-import de.kuno.lazyjam.gameengine.basic.ALogicComponent;
+import de.kuno.lazyjam.gameengine.basic.GameObject;
+import de.kuno.lazyjam.gamestatemanagement.concrete.GameState;
 
-public class SelfDestructionComponent extends ALogicComponent {
+
+public class SelfDestructionComponent {
 
 	private int ticksToDestruction = 30;
 
 	public static final String COMPONENT = "selfDestruct";
 
-	@Override
-	public void onUpdate() {
+	public void onUpdate(GameObject go, GameState gs) {
 		if (ticksToDestruction == 0) {
-			getGameObject().selfDestruct();
+			go.selfDestruct(gs);
 		}
 		ticksToDestruction--;
 	}
 
-	@Override
 	public void initWithString(String s) {
 		this.ticksToDestruction = Integer.parseInt(s);
 	}

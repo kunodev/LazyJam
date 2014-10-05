@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import de.kuno.lazyjam.gameengine.basic.AGameObjectComponent;
 import de.kuno.lazyjam.tools.log.LogManager;
 import de.kuno.lazyjam.tools.reflect.ReflectionUtil;
 
@@ -25,38 +24,31 @@ public class ComponentRegistry {
 		return instance;
 	}
 
-	private Map<String, Class<? extends AGameObjectComponent>> componentRegistry;
+	private Map<String, Class<?>> componentRegistry;
 
 	public ComponentRegistry() {
-		this.componentRegistry = new TreeMap<String, Class<? extends AGameObjectComponent>>();
+		this.componentRegistry = new TreeMap<String, Class<?>>();
 		this.loadDefaults();
 	}
 
 	public void loadComponents(String packageName) {
-		Class[] classes = {};
+		Class<?>[] classes = {};
 		try {
 			classes = ReflectionUtil.getClasses(packageName);
 		} catch (IOException | ClassNotFoundException e1) {
 			LogManager.getInstance().log("Could not load  classes!");
 		}
-		for (Class c : classes) {
-			if (isGOComponent(c)) {
-				String componentName;
-				try {
-					Class<? extends AGameObjectComponent> target = (Class<? extends AGameObjectComponent>) c;
-					componentName = c.getDeclaredField("COMPONENT").get(null).toString();
-					componentRegistry.put(componentName, target);
-				} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
-					System.err.println(c.getName());
-					LogManager.getInstance().log("a gameobject component does not have a COMPONENT field!");
-					e.printStackTrace();
-				}
+		for (Class<?> c : classes) {
+			String componentName;
+			try {
+				componentName = c.getDeclaredField("COMPONENT").get(null).toString();
+				componentRegistry.put(componentName, c);
+			} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
+				System.err.println(c.getName());
+				LogManager.getInstance().log("a gameobject component does not have a COMPONENT field!");
+				e.printStackTrace();
 			}
 		}
-	}
-
-	private boolean isGOComponent(Class c) {
-		return AGameObjectComponent.class.isAssignableFrom(c);
 	}
 
 	public void loadDefaults() {
@@ -71,7 +63,7 @@ public class ComponentRegistry {
 		return componentRegistry.keySet();
 	}
 
-	public Class<? extends AGameObjectComponent> getComponentClass(String possibleComponentName) {
+	public Class<?> getComponentClass(String possibleComponentName) {
 		return this.componentRegistry.get(possibleComponentName);
 	}
 

@@ -24,6 +24,7 @@ import de.kuno.lazyjam.tools.text.FontManager;
 public class MainGameWindow extends BasicGame {
 
 	private static MainGameWindow instance;
+	private GameStateContextManager gameStateMan;
 	public Cam cam;
 
 	public static MainGameWindow getInstance() {
@@ -42,21 +43,18 @@ public class MainGameWindow extends BasicGame {
 	 */
 	@Override
 	public void init(GameContainer gc) throws SlickException {
-		ServiceManager services = new ServiceManager();
-		services.searchForServices();
-		services.registerAsService(gc.getInput());
+		gameStateMan = new GameStateContextManager(gc);
 	}
 
 	@Override
 	public void update(GameContainer gc, int deltaInMilliseconds) throws SlickException {
-		GameStateContextManager.getInstance().update(gc, deltaInMilliseconds);
+		gameStateMan.update(deltaInMilliseconds);
 	}
 
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
-
 		// GameState.getInstance().renderObjects();
-		GameStateContextManager.getInstance().render(gc, g);
+		gameStateMan.render();
 		// VNManager.getInstance().renderVN();
 	}
 

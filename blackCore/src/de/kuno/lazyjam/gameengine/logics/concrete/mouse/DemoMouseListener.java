@@ -6,6 +6,7 @@ import de.kuno.lazyjam.asset.manager.AssetManager;
 import de.kuno.lazyjam.gameengine.basic.GameObject;
 import de.kuno.lazyjam.gameengine.logics.abstrct.AMouseListenerComponent;
 import de.kuno.lazyjam.gameengine.logics.concrete.game.SelfDestructionComponent;
+import de.kuno.lazyjam.gamestatemanagement.concrete.GameState;
 
 public class DemoMouseListener extends AMouseListenerComponent {
 
@@ -13,22 +14,20 @@ public class DemoMouseListener extends AMouseListenerComponent {
 
 	public static final String COMPONENT = "demoMouse";
 
-	@Override
-	public void onHover() {
-		Vector2f spawn = new Vector2f(getGameObject().getPos());
+	public void onHover(GameObject go, GameState gs) {
+		Vector2f spawn = new Vector2f(go.getPos());
 		spawn.add(offSet);
-		GameObject click = new GameObject(spawn);
-		click.addRenderComp(AssetManager.getInstance().getAsset("hover"));
-		click.addLogicComp(new SelfDestructionComponent());
+		GameObject click = new GameObject(spawn,gs);
+		click.addComponent(AssetManager.getInstance().getAsset("hover"));
+		click.addComponent(new SelfDestructionComponent());
 	}
 
-	@Override
-	public void onClick() {
-		Vector2f spawn = new Vector2f(getGameObject().getPos());
+	public void onClick(GameObject go, GameState gs) {
+		Vector2f spawn = new Vector2f(go.getPos());
 		spawn.add(offSet);
-		GameObject click = new GameObject(spawn);
-		click.addRenderComp(AssetManager.getInstance().getAsset("click"));
-		click.addLogicComp(new SelfDestructionComponent());
+		GameObject click = new GameObject(spawn, gs);
+		click.addComponent(AssetManager.getInstance().getAsset("click"));
+		click.addComponent(new SelfDestructionComponent());
 	}
 
 }

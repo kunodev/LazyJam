@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.newdawn.slick.geom.Vector2f;
 
+import de.kuno.lazyjam.gameengine.basic.GameObject;
+
 public class MultiAccelComponent extends AccelelerationComponent {
 
 	public static String COMPONENT = "multiAccel";
@@ -20,10 +22,11 @@ public class MultiAccelComponent extends AccelelerationComponent {
 	}
 
 	@Override
-	public void onUpdate() {
+	public void onUpdate(GameObject go) {
 		Vector2f result = new Vector2f();
 		accellerations.stream().forEach(a_x -> result.add(a_x));
 		this.a = result;
+		super.onUpdate(go);
 	}
 
 }

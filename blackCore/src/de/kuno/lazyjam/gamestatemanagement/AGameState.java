@@ -7,6 +7,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.openal.Audio;
 
 import de.kuno.lazyjam.constants.Constants;
+import de.kuno.lazyjam.tools.cdi.manager.ServiceManager;
 
 public abstract class AGameState implements IGameState {
 
@@ -25,14 +26,14 @@ public abstract class AGameState implements IGameState {
 		this.updateAbles = new ArrayList<Runnable>();
 	}
 
-	protected abstract void update(GameContainer gc);
+	protected abstract void update(ServiceManager serviceMan);
 
 	@Override
-	public void onUpdate(GameContainer gc, int deltaInMilliseconds) {
+	public void onUpdate(ServiceManager serviceMan, int deltaInMilliseconds) {
 		startBGM();
 		tick += deltaInMilliseconds;
 		if (tick >= TICK_TIME) {
-			update(gc);
+			update(serviceMan);
 			tick = 0;
 		}
 	}

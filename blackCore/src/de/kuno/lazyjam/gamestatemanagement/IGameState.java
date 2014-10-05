@@ -2,6 +2,8 @@ package de.kuno.lazyjam.gamestatemanagement;
 
 import org.newdawn.slick.GameContainer;
 
+import de.kuno.lazyjam.tools.cdi.manager.ServiceManager;
+
 /**
  * Defines a gamestate Interesting is what happens on the input and how often
  * this game state needs updates
@@ -14,12 +16,12 @@ public interface IGameState {
 	/**
 	 * Does update things
 	 */
-	public void onUpdate(GameContainer gc, int deltaInMilliseconds);
+	public void onUpdate(ServiceManager serviceMan, int deltaInMilliseconds);
 
 	/**
 	 * Does the rendering
 	 */
-	public void onRender();
+	public void onRender(ServiceManager serviceMan);
 
 	/**
 	 * returns the time to be update -1 if as fast as possible

@@ -3,10 +3,13 @@ package de.kuno.lazyjam.gameengine.renderer.concrete;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.newdawn.slick.geom.Vector2f;
+
 import de.kuno.lazyjam.asset.assets.ARenderableObject;
 import de.kuno.lazyjam.asset.assets.SpriteSheet;
 import de.kuno.lazyjam.asset.manager.AssetManager;
 import de.kuno.lazyjam.gameengine.renderer.abstrct.SimpleAbstractAnimationComponent;
+import de.kuno.lazyjam.tools.cdi.annotations.Render;
 
 public class PNGSpriteRendererComponent extends SimpleAbstractAnimationComponent {
 
@@ -31,11 +34,11 @@ public class PNGSpriteRendererComponent extends SimpleAbstractAnimationComponent
 		return true;
 	}
 
-	@Override
-	public void onRender() {
+	@Render
+	public void onRender(Vector2f pos) {
 		int tileX = (int) ip.getRectangle().getWidth();
 		int tileY = (int) ip.getRectangle().getHeight();
-		ip.getPicture().draw(getPos().x, getPos().y, getPos().x + tileX, getPos().y + tileY, tileX * xOffset,
+		ip.getPicture().draw(pos.x, pos.y, pos.x + tileX, pos.y + tileY, tileX * xOffset,
 				tileY * state, tileX * (xOffset + 1), tileY * (state + 1));
 		// ip.getPicture().draw(getPos().x, getPos().y, tileX * xOffset, tileY *
 		// state, tileX * (xOffset + 1), tileY * (state +1));

@@ -6,14 +6,21 @@ import java.util.Map;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
+import de.kuno.lazyjam.tools.cdi.manager.ServiceManager;
+
 public class GameStateContextManager {
 
 	private Map<Class<? extends IGameState>, IGameState> gameStates;
+	ServiceManager serviceMan;
 	IGameState activeState;
 	IGameState mainState;
 
-	public GameStateContextManager() {
+	public GameStateContextManager(GameContainer gc) {
 		gameStates = new HashMap<Class<? extends IGameState>, IGameState>();
+		serviceMan = new ServiceManager();
+		serviceMan.searchForServices();
+		serviceMan.registerAsService(gc.getInput());
+		serviceMan.registerAsService(gc);
 	}
 
 	public void addGameState(Class<? extends IGameState> key, IGameState state) {
@@ -43,21 +50,12 @@ public class GameStateContextManager {
 		return t.cast(this.gameStates.get(gamestateId));
 	}
 
-	public void render(GameContainer gc, Graphics g) {
-		activeState.onRender();
+	public void render() {
+		activeState.onRender(serviceMan);
 	}
 
-	public void update(GameContainer gc, int deltaInMilliseconds) {
-		activeState.onUpdate(gc, deltaInMilliseconds);
-	}
-
-	private static GameStateContextManager instance;
-
-	public static GameStateContextManager getInstance() {
-		if (instance == null) {
-			instance = new GameStateContextManager();
-		}
-		return instance;
+	public void update(int deltaInMilliseconds) {
+		activeState.onUpdate(serviceMan, deltaInMilliseconds);
 	}
 
 	public <T extends IGameState> T getMainGameState(Class<T> clazz) {

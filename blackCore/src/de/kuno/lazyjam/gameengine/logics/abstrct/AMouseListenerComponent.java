@@ -1,25 +1,14 @@
 package de.kuno.lazyjam.gameengine.logics.abstrct;
 
 import de.kuno.lazyjam.constants.Tags;
-import de.kuno.lazyjam.gameengine.basic.ALogicComponent;
-import de.kuno.lazyjam.gamestatemanagement.GameStateContextManager;
-import de.kuno.lazyjam.gamestatemanagement.concrete.GameGameState;
+import de.kuno.lazyjam.gameengine.basic.GameObject;
+import de.kuno.lazyjam.gamestatemanagement.concrete.GameState;
 
-public abstract class AMouseListenerComponent extends ALogicComponent {
+public abstract class AMouseListenerComponent{
 
-	@Override
-	public void onUpdate() {
-		// Dont do shit
-	}
-
-	public abstract void onHover();
-
-	public abstract void onClick();
-
-	@Override
-	public void onAdded() {
-		GameGameState ggs = GameStateContextManager.getInstance().getGameStateAs(GameGameState.class);
-		ggs.addTag(this.getGameObject(), Tags.MOUSE);
+	
+	public void onAdded(GameObject go, GameState gs) {
+		gs.addTag(go, Tags.MOUSE);
 	}
 
 }

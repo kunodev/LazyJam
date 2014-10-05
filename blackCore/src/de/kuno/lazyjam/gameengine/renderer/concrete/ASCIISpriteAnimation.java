@@ -13,6 +13,8 @@ import de.kuno.lazyjam.asset.assets.ARenderableObject;
 import de.kuno.lazyjam.asset.assets.ASCIIPicture;
 import de.kuno.lazyjam.asset.manager.AssetManager;
 import de.kuno.lazyjam.gameengine.renderer.abstrct.SimpleAbstractAnimationComponent;
+import de.kuno.lazyjam.tools.cdi.annotations.MapInit;
+import de.kuno.lazyjam.tools.cdi.annotations.Render;
 import de.kuno.lazyjam.tools.text.FontManager;
 
 public class ASCIISpriteAnimation extends SimpleAbstractAnimationComponent {
@@ -40,7 +42,7 @@ public class ASCIISpriteAnimation extends SimpleAbstractAnimationComponent {
 		addFromArray(pics);
 	}
 
-	@Override
+	@Render
 	public void onRender() {
 		ASCIIPicture pic = (ASCIIPicture) this.renderableObjects.get(state).get(xOffset);
 		String[] pics = pic.getPicture().split("\n");
@@ -118,7 +120,7 @@ public class ASCIISpriteAnimation extends SimpleAbstractAnimationComponent {
 		return result;
 	}
 
-	@Override
+	@MapInit
 	public void initWithString(String val) {
 		SimpleAbstractAnimationComponent preFab = AssetManager.getInstance().getAsset(val);
 		if (preFab instanceof ASCIISpriteAnimation) {

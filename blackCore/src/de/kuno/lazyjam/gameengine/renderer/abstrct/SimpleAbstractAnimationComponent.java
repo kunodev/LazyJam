@@ -5,9 +5,8 @@ import java.util.ArrayList;
 import org.newdawn.slick.geom.Rectangle;
 
 import de.kuno.lazyjam.asset.assets.ARenderableObject;
-import de.kuno.lazyjam.gameengine.basic.ARenderComponent;
 
-public abstract class SimpleAbstractAnimationComponent extends ARenderComponent {
+public abstract class SimpleAbstractAnimationComponent {
 
 	protected int xOffset;
 	protected int state;

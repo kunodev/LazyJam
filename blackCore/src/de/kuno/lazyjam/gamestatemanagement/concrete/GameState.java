@@ -17,22 +17,24 @@ import de.kuno.lazyjam.camera.Cam;
 import de.kuno.lazyjam.constants.Settings;
 import de.kuno.lazyjam.gameengine.basic.GameObject;
 import de.kuno.lazyjam.gamestatemanagement.AGameState;
+import de.kuno.lazyjam.tools.cdi.manager.ServiceManager;
 import de.kuno.lazyjam.tools.dua.set.QueueSet;
 import de.kuno.lazyjam.tools.vectors.VectorDistanceComparator;
 
-public class GameGameState extends AGameState {
+public class GameState extends AGameState {
 
 	public Collection<GameObject> gameObjects;
 	public Map<String, Collection<GameObject>> taggedGameObjects;
 	private TiledMap map;
-	private Cam cam;
 	
-	public GameGameState(GameContainer gc) {
+	public GameState() {
 		taggedGameObjects = new HashMap<String, Collection<GameObject>>();
+		gameObjects = new QueueSet<GameObject>(this);
 	}
 
 	@Override
-	public void onRender() {
+	public void onRender(ServiceManager serviceMan) {
+		Cam cam = serviceMan.getService(Cam.class);
 		if (map != null) {
 			map.render(cam.getX() % Settings.getInstance().getInt("TILE_SIZE"), cam.getY()
 					% Settings.getInstance().getInt("TILE_SIZE"),
@@ -44,14 +46,14 @@ public class GameGameState extends AGameState {
 			// map.render(cam.getX(), cam.getY());
 			// map.render(0, 0, 0, 0, 1024, 768);
 		}
-		gameObjects.stream().forEach(e -> e.onRender());
+		gameObjects.stream().forEach(e -> e.onRender(this, serviceMan));
 	}
 
 	@Override
-	protected void update(GameContainer gc) {
+	protected void update(ServiceManager serviceMan) {
 		updateAbles.stream().forEach(e -> e.run());
 		for (GameObject go : gameObjects) {
-			go.onUpdate();
+			go.onUpdate(this, serviceMan);
 		}
 	}
 
@@ -64,12 +66,6 @@ public class GameGameState extends AGameState {
 		if (tag != null) {
 			taggedGameObjects.get(tag).remove(go);
 		}
-	}
-
-	public void init() {
-		gameObjects = new QueueSet<GameObject>();
-		// TODO: If used in core Project, give new init method
-		// CoreGameContentProvider.initGameObjects();
 	}
 
 	public void addGameObject(GameObject gameObject, String tag) {
@@ -91,22 +87,17 @@ public class GameGameState extends AGameState {
 	}
 
 	public void addTag(GameObject gameObject, String tag) {
+		if(tag == null) {
+			return;
+		}
 		if (this.taggedGameObjects.get(tag) == null) {
-			this.taggedGameObjects.put(tag, new QueueSet<GameObject>());
+			this.taggedGameObjects.put(tag, new QueueSet<GameObject>(this));
 		}
 		this.taggedGameObjects.get(tag).add(gameObject);
 	}
 
 	public void setMap(TiledMap map) {
 		this.map = map;
-	}
-
-	public Cam getCam() {
-		return cam;
-	}
-
-	public void setCam(Cam cam) {
-		this.cam = cam;
 	}
 
 	public void registerUpdateable(Runnable r) {

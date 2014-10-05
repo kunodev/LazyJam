@@ -7,6 +7,7 @@ import org.newdawn.slick.tiled.TiledMap;
 import de.kuno.lazyjam.constants.Settings;
 import de.kuno.lazyjam.gameengine.basic.GameObject;
 import de.kuno.lazyjam.gameengine.basic.helper.ComponentRegistry;
+import de.kuno.lazyjam.gamestatemanagement.concrete.GameState;
 import de.kuno.lazyjam.tools.log.LogManager;
 
 public class AMapContentProvider {
@@ -25,13 +26,13 @@ public class AMapContentProvider {
 		}
 	}
 
-	public void init() {
+	public void init(GameState gs) {
 		Settings.getInstance().putData("TILE_SIZE", map.getTileHeight());
 		for (int gid = 0; gid < map.getObjectGroupCount(); gid++) {
 			for (int oid = 0; oid < map.getObjectCount(gid); oid++) {
 				Vector2f pos = new Vector2f(map.getObjectX(gid, oid), map.getObjectY(gid, oid));
 				String tag = map.getObjectProperty(gid, oid, "tag", "");
-				GameObject newGoResult = new GameObject(pos, tag);
+				GameObject newGoResult = new GameObject(pos, tag, gs);
 				// Simple Component
 				for (String possibleComponentName : ComponentRegistry.getInstance().getPossibleComponentNames()) {
 					String val = map.getObjectProperty(gid, oid, possibleComponentName, null);

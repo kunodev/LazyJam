@@ -8,7 +8,6 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Set;
 
-import de.kuno.lazyjam.gameengine.basic.AGameObjectComponent;
 
 public class ReflectionUtil {
 	/**
@@ -21,7 +20,7 @@ public class ReflectionUtil {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	public static Class[] getClasses(String packageName) throws ClassNotFoundException, IOException {
+	public static Class<?>[] getClasses(String packageName) throws ClassNotFoundException, IOException {
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		assert classLoader != null;
 		String path = packageName.replace('.', '/');
@@ -31,7 +30,7 @@ public class ReflectionUtil {
 			URL resource = resources.nextElement();
 			dirs.add(new File(resource.getFile()));
 		}
-		ArrayList<Class> classes = new ArrayList<Class>();
+		ArrayList<Class<?>> classes = new ArrayList<Class<?>>();
 		for (File directory : dirs) {
 			classes.addAll(findClasses(directory, packageName));
 		}
