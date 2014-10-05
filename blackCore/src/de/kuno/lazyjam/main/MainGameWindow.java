@@ -12,6 +12,7 @@ import org.newdawn.slick.SlickException;
 import de.kuno.lazyjam.camera.Cam;
 import de.kuno.lazyjam.constants.Settings;
 import de.kuno.lazyjam.gamestatemanagement.GameStateContextManager;
+import de.kuno.lazyjam.tools.cdi.manager.ServiceManager;
 import de.kuno.lazyjam.tools.text.FontManager;
 
 /**
@@ -41,11 +42,9 @@ public class MainGameWindow extends BasicGame {
 	 */
 	@Override
 	public void init(GameContainer gc) throws SlickException {
-		cam = initCam();
-
-		// pInput = new VNInput();
-		// pInput.init(gc.getInput(), new InputConfiguration());
-
+		ServiceManager services = new ServiceManager();
+		services.searchForServices();
+		services.registerAsService(gc.getInput());
 	}
 
 	@Override
@@ -59,18 +58,6 @@ public class MainGameWindow extends BasicGame {
 		// GameState.getInstance().renderObjects();
 		GameStateContextManager.getInstance().render(gc, g);
 		// VNManager.getInstance().renderVN();
-	}
-
-	protected Cam initCam() {
-		cam = new Cam();
-		cam.setX(0);
-		cam.setY(0);
-		FontManager.setCam(cam);
-		return cam;
-	}
-
-	public Cam getCam() {
-		return cam;
 	}
 
 	public static void createMainGameWindow() {

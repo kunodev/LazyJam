@@ -15,13 +15,10 @@ public class ASCIIPicture extends ARenderableObject {
 
 	public ASCIIPicture(String picture) {
 		this.picture = picture;
-		this.drawingFont = FontManager.getInstance().getFontDefinition();
 	}
 
 	public ASCIIPicture(String picture, FontDefinition fd) {
 		this.picture = picture;
-		this.drawingFont = fd;
-		FontManager.getInstance().addAssetFont(fd);
 	}
 
 	public String getPicture() {
@@ -43,12 +40,5 @@ public class ASCIIPicture extends ARenderableObject {
 		Rectangle result = new Rectangle(0, 0, fontSize * maxLength, fontSize * pictures.length);
 		return result;
 	}
-
-	public FontDefinition getDrawingFont() {
-		return drawingFont;
-	}
-
-	public void setDrawingFont(FontDefinition drawingFont) {
-		this.drawingFont = drawingFont;
-	}
+	
 }

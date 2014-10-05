@@ -12,6 +12,7 @@ import java.util.TreeMap;
 
 import de.kuno.lazyjam.gameengine.basic.AGameObjectComponent;
 import de.kuno.lazyjam.tools.log.LogManager;
+import de.kuno.lazyjam.tools.reflect.ReflectionUtil;
 
 public class ComponentRegistry {
 
@@ -34,7 +35,7 @@ public class ComponentRegistry {
 	public void loadComponents(String packageName) {
 		Class[] classes = {};
 		try {
-			classes = getClasses(packageName);
+			classes = ReflectionUtil.getClasses(packageName);
 		} catch (IOException | ClassNotFoundException e1) {
 			LogManager.getInstance().log("Could not load  classes!");
 		}
@@ -63,49 +64,6 @@ public class ComponentRegistry {
 		this.loadComponents("de.black.core.gameengine.logics.concrete");
 	}
 
-	/**
-	 * Scans all classes accessible from the context class loader which belong
-	 * to the given package and subpackages.
-	 *
-	 * @param packageName
-	 *            The base package
-	 * @return The classes
-	 * @throws ClassNotFoundException
-	 * @throws IOException
-	 */
-	private static Class[] getClasses(String packageName) throws ClassNotFoundException, IOException {
-		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-		assert classLoader != null;
-		String path = packageName.replace('.', '/');
-		Enumeration<URL> resources = classLoader.getResources(path);
-		List<File> dirs = new ArrayList<File>();
-		while (resources.hasMoreElements()) {
-			URL resource = resources.nextElement();
-			dirs.add(new File(resource.getFile()));
-		}
-		ArrayList<Class> classes = new ArrayList<Class>();
-		for (File directory : dirs) {
-			classes.addAll(findClasses(directory, packageName));
-		}
-		return classes.toArray(new Class[classes.size()]);
-	}
-
-	private static List<Class> findClasses(File directory, String packageName) throws ClassNotFoundException {
-		List<Class> classes = new ArrayList<Class>();
-		if (!directory.exists()) {
-			return classes;
-		}
-		File[] files = directory.listFiles();
-		for (File file : files) {
-			if (file.isDirectory()) {
-				assert !file.getName().contains(".");
-				classes.addAll(findClasses(file, packageName + "." + file.getName()));
-			} else if (file.getName().endsWith(".class")) {
-				classes.add(Class.forName(packageName + '.' + file.getName().substring(0, file.getName().length() - 6)));
-			}
-		}
-		return classes;
-	}
 
 	public Set<String> getPossibleComponentNames() {
 		// List<String> names = new ArrayList<String>();

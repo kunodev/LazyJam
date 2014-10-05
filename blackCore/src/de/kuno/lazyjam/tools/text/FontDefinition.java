@@ -11,9 +11,8 @@ public class FontDefinition {
 	private volatile TrueTypeFont ttfFont;
 	private int gameState;
 
-	public FontDefinition(int gamestate, int awtfontID) {
+	public FontDefinition(int awtfontID) {
 		this.awtFont = awtfontID;
-		this.gameState = gamestate;
 		actuateFont();
 	}
 

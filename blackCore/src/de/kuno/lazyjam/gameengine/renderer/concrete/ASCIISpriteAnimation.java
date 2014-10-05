@@ -45,8 +45,8 @@ public class ASCIISpriteAnimation extends SimpleAbstractAnimationComponent {
 		ASCIIPicture pic = (ASCIIPicture) this.renderableObjects.get(state).get(xOffset);
 		String[] pics = pic.getPicture().split("\n");
 		for (int i = 0; i < pics.length; i++) {
-			FontManager.getInstance().drawTextAbsolut((int) getGameObject().getPos().x,
-					(int) getGameObject().getPos().y + (i * 20), pics[i], pic.getDrawingFont().getGameState(), color);
+//			FontManager.getInstance().drawTextAbsolut((int) getGameObject().getPos().x,
+//					(int) getGameObject().getPos().y + (i * 20), pics[i], pic.getDrawingFont().getGameState(), color);
 		}
 	}
 
@@ -109,16 +109,12 @@ public class ASCIISpriteAnimation extends SimpleAbstractAnimationComponent {
 		do {
 			if (line.equals("-")) {
 				result.setPicture(picture);
-				// TODO: load the font
-				result.setDrawingFont(FontManager.getInstance().getFontDefinition());
 				return result;
 			} else {
 				picture += line + "\n";
 			}
 		} while ((line = reader.readLine()) != null);
 		result.setPicture(picture);
-		// TODO: load the font
-		result.setDrawingFont(FontManager.getInstance().getFontDefinition());
 		return result;
 	}
 

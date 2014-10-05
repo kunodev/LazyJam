@@ -7,34 +7,22 @@ import org.newdawn.slick.Color;
 
 import de.kuno.lazyjam.camera.Cam;
 import de.kuno.lazyjam.constants.Constants;
+import de.kuno.lazyjam.tools.cdi.annotations.Service;
 
+@Service
 public class FontManager {
 
-	private static FontManager instance;
-
-	public static FontManager getInstance() {
-		if (instance == null) {
-			instance = new FontManager();
-		}
-		return instance;
-	}
-
 	private Cam cam;
-
-	public static void setCam(Cam c) {
-		getInstance().cam = c;
-	}
-
+	
 	/**
 	 * Font to use TODO: put into a global config? => when option menu comes
 	 */
-	private List<FontDefinition> fonts;
+	private FontDefinition font;
 	private int lowestAssetFont = 0;
 
-	public FontManager() {
-		fonts = new ArrayList<FontDefinition>();
+	public FontManager() {;
 		int fontNumber = 3;
-		fonts.add(new FontDefinition(Constants.DEFAULT_ID, fontNumber));
+		font = new FontDefinition(fontNumber);
 	}
 
 	public void drawTextRelative(int xoffset, int yoffset, String text) {
@@ -51,8 +39,7 @@ public class FontManager {
 
 	public void drawTextRelative(int xoffset, int yoffset, String text, int stateId, Color color) {
 		Cam cam = this.cam;
-		fonts.stream().filter(e -> e.getGameState() == stateId)
-				.forEach(e -> e.getTtfFont().drawString(cam.getX() + xoffset, cam.getY() + yoffset, text, color));
+		font.getTtfFont().drawString(cam.getX() + xoffset, cam.getY() + yoffset, text, color);
 	}
 
 	public void drawTextAbsolut(int xpos, int ypos, String text) {
@@ -68,21 +55,19 @@ public class FontManager {
 	}
 
 	public void drawTextAbsolut(int xpos, int ypos, String text, int stateId, Color color) {
-		fonts.stream().filter(e -> e.getGameState() == stateId)
-				.forEach(e -> e.getTtfFont().drawString(xpos, ypos, text, color));
-
+		font.getTtfFont().drawString(xpos, ypos, text, color);
 	}
 
 	public String getCurrentFontName(int gamestate) {
-		return fonts.stream().filter(e -> e.getGameState() == gamestate).findFirst().get().getAwtFont().getFontName();
+		return font.getAwtFont().getFontName();
 	}
 
 	public void nextFont(int gamestate) {
-		fonts.stream().filter(e -> e.getGameState() == gamestate).findFirst().get().awtFontIncr();
+		font.awtFontIncr();
 	}
 
 	public void prevFont(int gamestate) {
-		fonts.stream().filter(e -> e.getGameState() == gamestate).findFirst().get().awtFontDecr();
+		font.awtFontDecr();
 	}
 
 	public void nextFont() {
@@ -98,16 +83,7 @@ public class FontManager {
 	}
 
 	public FontDefinition getFontDefinition() {
-		return getFontDefinition(Constants.DEFAULT_ID);
-	}
-
-	public FontDefinition getFontDefinition(int gamestate) {
-		return fonts.stream().filter(e -> e.getGameState() == gamestate).findAny().get();
-	}
-
-	public void addAssetFont(FontDefinition fd) {
-		fd.setGameState(--lowestAssetFont);
-		this.fonts.add(fd);
+		return font;
 	}
 
 	public void drawTextAbsolut(float x, float y, String text) {
