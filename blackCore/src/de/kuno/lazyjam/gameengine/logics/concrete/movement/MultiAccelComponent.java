@@ -22,11 +22,11 @@ public class MultiAccelComponent extends AccelelerationComponent {
 	}
 
 	@Override
-	public void onUpdate(GameObject go) {
+	public void onUpdate(Vector2f pos) {
 		Vector2f result = new Vector2f();
 		accellerations.stream().forEach(a_x -> result.add(a_x));
 		this.a = result;
-		super.onUpdate(go);
+		super.onUpdate(pos);
 	}
 
 }

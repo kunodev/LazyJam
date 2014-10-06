@@ -20,8 +20,8 @@ public class VelocityComponent {
 	}
 
 	@Update
-	public void onUpdate(GameObject go) {
-		go.getPos().add(v);
+	public void onUpdate(Vector2f pos) {
+		pos.add(v);
 	}
 
 	public Vector2f getV() {

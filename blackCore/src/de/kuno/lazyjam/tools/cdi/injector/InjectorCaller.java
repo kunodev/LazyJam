@@ -82,12 +82,22 @@ public class InjectorCaller {
 			return result;
 		}
 		
+		result = tryObject(gameObject, toFind);
+		if(result != null) {
+			return result;
+		}
+		
 		//try silbingComponents field
 		result = tryOtherCompsFields(toFind, gameObject);
 		if(result != null) {
 			return result;
 		}
 		// ok. fuck it, try gamestate
+		result = tryObject(gs, toFind);
+		if(result != null) {
+			return result;
+		}
+		
 		result = tryFindField(toFind, gs);
 		if(result != null) {
 			return result;
@@ -99,13 +109,21 @@ public class InjectorCaller {
 
 	private static Object tryOtherComps(Class<?> toFind, GameObject gameObject) {
 		for(Object obj : gameObject.getComponents()) {
-			Class<?> someClass = obj.getClass();
-			while(someClass != null) {
-				if(someClass == toFind) {
-					return obj;
-				} else {
-					someClass = someClass.getSuperclass();
-				}
+			Object result = tryObject(obj, toFind);
+			if(result != null) {
+				return result;
+			}
+		}
+		return null;
+	}
+	
+	private static Object tryObject(Object obj, Class<?> toFind) {
+		Class<?> someClass = obj.getClass();
+		while(someClass != null) {
+			if(someClass == toFind) {
+				return obj;
+			} else {
+				someClass = someClass.getSuperclass();
 			}
 		}
 		return null;

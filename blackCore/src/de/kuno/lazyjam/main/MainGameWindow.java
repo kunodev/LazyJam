@@ -24,7 +24,7 @@ import de.kuno.lazyjam.tools.text.FontManager;
 public class MainGameWindow extends BasicGame {
 
 	private static MainGameWindow instance;
-	private GameStateContextManager gameStateMan;
+	protected GameStateContextManager gameStateMan;
 	public Cam cam;
 
 	public static MainGameWindow getInstance() {

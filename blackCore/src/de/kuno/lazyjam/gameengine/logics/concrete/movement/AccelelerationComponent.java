@@ -2,10 +2,9 @@ package de.kuno.lazyjam.gameengine.logics.concrete.movement;
 
 import org.newdawn.slick.geom.Vector2f;
 
-import de.kuno.lazyjam.gameengine.basic.GameObject;
-import de.kuno.lazyjam.helper.map.Component;
 import de.kuno.lazyjam.tools.cdi.annotations.Update;
-@Component(name="accel")
+import de.kuno.lazyjam.gameengine.logics.concrete.movement.VelocityComponent;
+
 public class AccelelerationComponent extends VelocityComponent {
 
 
@@ -27,9 +26,9 @@ public class AccelelerationComponent extends VelocityComponent {
 	}
 
 	@Update
-	public void onUpdate(GameObject go) {
+	public void onUpdate(Vector2f pos) {
 		v.add(a);
-		super.onUpdate(go);
+		super.onUpdate(pos);
 	}
 
 	public Vector2f getA() {
