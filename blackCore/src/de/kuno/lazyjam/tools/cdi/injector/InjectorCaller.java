@@ -7,6 +7,8 @@ import java.lang.reflect.Method;
 
 import de.kuno.lazyjam.gameengine.basic.GameObject;
 import de.kuno.lazyjam.gamestatemanagement.concrete.GameState;
+import de.kuno.lazyjam.helper.map.MapInit;
+import de.kuno.lazyjam.tools.cdi.annotations.Render;
 import de.kuno.lazyjam.tools.cdi.annotations.Update;
 import de.kuno.lazyjam.tools.cdi.manager.ServiceManager;
 
@@ -15,8 +17,39 @@ public class InjectorCaller {
 	// probablygoing to solve this by an annotation that declares this field injectable or publishable
 
 	public static void callUpdate(GameObject gameObject, GameState gs, ServiceManager serviceMan) {
+		callMethodOnGameObjects(gameObject, gs, serviceMan, Update.class);
+	}
+
+
+	public static void callRender(GameObject gameObject, GameState gs, ServiceManager serviceMan) {
+		callMethodOnGameObjects(gameObject, gs, serviceMan, Render.class);
+	}
+	
+	private static Method getMethod(Object comp, Class<? extends Annotation> annotation) {
+		for(Method m : comp.getClass().getMethods()) {
+			if(m.getAnnotation(annotation) != null) {
+				return m;
+			}
+		}
+		return null;
+	}
+	
+	public static void callMapInit(GameObject newGoResult, Object component, String val) {
+		newGoResult.addComponent(component);
+		Method initFromMap = getMethod(component, MapInit.class);
+		if(initFromMap != null) {
+			try {
+				initFromMap.setAccessible(true);
+				initFromMap.invoke(component, val);
+			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public static void callMethodOnGameObjects(GameObject gameObject, GameState gs, ServiceManager serviceMan, Class<? extends Annotation> anoType) {
 		for(Object comp : gameObject.getComponents()) {
-			Method m = getMethod(comp, Update.class);
+			Method m = getMethod(comp, anoType);
 			if(m != null) {
 				try {
 					Object[] params = getParams(m.getParameterTypes(), gameObject, gs, serviceMan);
@@ -27,24 +60,6 @@ public class InjectorCaller {
 				}
 			}
 		}
-		
-	}
-
-	private static Method getMethod(Object comp, Class<? extends Annotation> annotation) {
-		for(Method m : comp.getClass().getMethods()) {
-			if(m.getAnnotation(annotation) != null) {
-				return m;
-			}
-		}
-		return null;
-	}
-
-	public static void callRender(GameObject gameObject, GameState gs, ServiceManager serviceMan) {
-		
-	}
-
-	public static void callMapInit(GameObject newGoResult, Object component, String val) {
-		
 	}
 	
 	private static Object[] getParams(Class<?>[] paramClasses, GameObject gameObject, GameState gs, ServiceManager serviceMan) throws IllegalArgumentException, IllegalAccessException {
@@ -62,8 +77,13 @@ public class InjectorCaller {
 		if(result != null) {
 			return result;
 		}
-		//try silbingComponent
 		result = tryOtherComps(toFind, gameObject);
+		if(result != null) {
+			return result;
+		}
+		
+		//try silbingComponents field
+		result = tryOtherCompsFields(toFind, gameObject);
 		if(result != null) {
 			return result;
 		}
@@ -77,7 +97,21 @@ public class InjectorCaller {
 		return result;
 	}
 
-	private static Object tryOtherComps(Class<?> toFind, GameObject gameObject) throws IllegalArgumentException, IllegalAccessException {
+	private static Object tryOtherComps(Class<?> toFind, GameObject gameObject) {
+		for(Object obj : gameObject.getComponents()) {
+			Class<?> someClass = obj.getClass();
+			while(someClass != null) {
+				if(someClass == toFind) {
+					return obj;
+				} else {
+					someClass = someClass.getSuperclass();
+				}
+			}
+		}
+		return null;
+	}
+
+	private static Object tryOtherCompsFields(Class<?> toFind, GameObject gameObject) throws IllegalArgumentException, IllegalAccessException {
 		for(Object obj : gameObject.getComponents()) {
 			Object res = tryFindField(toFind, obj);
 			if(res != null) {
@@ -93,6 +127,7 @@ public class InjectorCaller {
 			Field[] fields = clazz.getDeclaredFields();
 			for(Field field : fields) {
 				if(field.getType() == toFind) {
+					//TODO: superclasses?
 					field.setAccessible(true);
 					return field.get(gameObject);
 				}

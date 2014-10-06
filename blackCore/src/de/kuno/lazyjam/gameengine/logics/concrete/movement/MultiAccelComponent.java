@@ -6,10 +6,10 @@ import java.util.List;
 import org.newdawn.slick.geom.Vector2f;
 
 import de.kuno.lazyjam.gameengine.basic.GameObject;
-
+import de.kuno.lazyjam.helper.map.Component;
+@Component(name="multiAccel")
 public class MultiAccelComponent extends AccelelerationComponent {
 
-	public static String COMPONENT = "multiAccel";
 
 	private List<Vector2f> accellerations;
 

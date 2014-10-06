@@ -9,11 +9,10 @@ import de.kuno.lazyjam.asset.assets.ARenderableObject;
 import de.kuno.lazyjam.asset.assets.SpriteSheet;
 import de.kuno.lazyjam.asset.manager.AssetManager;
 import de.kuno.lazyjam.gameengine.renderer.abstrct.SimpleAbstractAnimationComponent;
+import de.kuno.lazyjam.helper.map.Component;
 import de.kuno.lazyjam.tools.cdi.annotations.Render;
-
+@Component(name="PNGSprite")
 public class PNGSpriteRendererComponent extends SimpleAbstractAnimationComponent {
-
-	public static final String COMPONENT = "PNGSprite";
 
 	protected SpriteSheet ip;
 

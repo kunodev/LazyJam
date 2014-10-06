@@ -13,13 +13,14 @@ import de.kuno.lazyjam.asset.assets.ARenderableObject;
 import de.kuno.lazyjam.asset.assets.ASCIIPicture;
 import de.kuno.lazyjam.asset.manager.AssetManager;
 import de.kuno.lazyjam.gameengine.renderer.abstrct.SimpleAbstractAnimationComponent;
-import de.kuno.lazyjam.tools.cdi.annotations.MapInit;
+import de.kuno.lazyjam.helper.map.Component;
+import de.kuno.lazyjam.helper.map.MapInit;
 import de.kuno.lazyjam.tools.cdi.annotations.Render;
 import de.kuno.lazyjam.tools.text.FontManager;
 
+@Component(name="ASCIISprite")
 public class ASCIISpriteAnimation extends SimpleAbstractAnimationComponent {
 
-	public static String COMPONENT = "ASCIISprite";
 
 	public Color color;
 

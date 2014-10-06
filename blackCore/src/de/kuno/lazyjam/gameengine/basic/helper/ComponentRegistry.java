@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import de.kuno.lazyjam.helper.map.Component;
 import de.kuno.lazyjam.tools.log.LogManager;
 import de.kuno.lazyjam.tools.reflect.ReflectionUtil;
 
@@ -39,11 +40,10 @@ public class ComponentRegistry {
 			LogManager.getInstance().log("Could not load  classes!");
 		}
 		for (Class<?> c : classes) {
-			String componentName;
 			try {
-				componentName = c.getDeclaredField("COMPONENT").get(null).toString();
-				componentRegistry.put(componentName, c);
-			} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
+				Component anno = c.getAnnotation(Component.class);
+				componentRegistry.put(anno.name(), c);
+			} catch (IllegalArgumentException | SecurityException e) {
 				System.err.println(c.getName());
 				LogManager.getInstance().log("a gameobject component does not have a COMPONENT field!");
 				e.printStackTrace();

@@ -3,11 +3,11 @@ package de.kuno.lazyjam.gameengine.logics.concrete.movement;
 import org.newdawn.slick.geom.Vector2f;
 
 import de.kuno.lazyjam.gameengine.basic.GameObject;
+import de.kuno.lazyjam.helper.map.Component;
 import de.kuno.lazyjam.tools.cdi.annotations.Update;
 
+@Component(name="velocity")
 public class VelocityComponent {
-
-	public static String COMPONENT = "velocity";
 
 	protected Vector2f v;
 

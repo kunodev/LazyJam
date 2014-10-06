@@ -1,4 +1,4 @@
-package de.kuno.lazyjam.tools.cdi.annotations;
+package de.kuno.lazyjam.helper.map;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
