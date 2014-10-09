@@ -2,17 +2,13 @@ package de.kuno.lazyjam.tools.log;
 
 import java.util.HashMap;
 
+import de.kuno.lazyjam.tools.cdi.annotations.Service;
+
+@Service
 public class LogManager {
 
-	private static LogManager instance;
 	private HashMap<String, Logger> logMap;
 	private final Logger defaultLogger = new Logger("debug.log");
-
-	public static LogManager getInstance() {
-		if (instance == null)
-			instance = new LogManager();
-		return instance;
-	}
 
 	public LogManager() {
 		this.logMap = new HashMap<String, Logger>();

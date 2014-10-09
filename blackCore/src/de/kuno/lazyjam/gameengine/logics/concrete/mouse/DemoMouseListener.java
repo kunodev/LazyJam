@@ -15,19 +15,19 @@ public class DemoMouseListener extends AMouseListenerComponent {
 	private static Vector2f offSet = new Vector2f(10f, -10f);
 
 
-	public void onHover(GameObject go, GameState gs) {
+	public void onHover(GameObject go, GameState gs, AssetManager assetMan) {
 		Vector2f spawn = new Vector2f(go.getPos());
 		spawn.add(offSet);
 		GameObject click = new GameObject(spawn,gs);
-		click.addComponent(AssetManager.getInstance().getAsset("hover"));
+		click.addComponent(assetMan.getAsset("hover"));
 		click.addComponent(new SelfDestructionComponent());
 	}
 
-	public void onClick(GameObject go, GameState gs) {
+	public void onClick(GameObject go, GameState gs, AssetManager assetMan) {
 		Vector2f spawn = new Vector2f(go.getPos());
 		spawn.add(offSet);
 		GameObject click = new GameObject(spawn, gs);
-		click.addComponent(AssetManager.getInstance().getAsset("click"));
+		click.addComponent(assetMan.getAsset("click"));
 		click.addComponent(new SelfDestructionComponent());
 	}
 

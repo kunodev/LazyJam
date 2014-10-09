@@ -13,8 +13,10 @@ import org.newdawn.slick.openal.SoundStore;
 import de.kuno.lazyjam.gameengine.renderer.abstrct.SimpleAbstractAnimationComponent;
 import de.kuno.lazyjam.gameengine.renderer.concrete.ASCIISpriteAnimation;
 import de.kuno.lazyjam.gameengine.renderer.concrete.PNGSpriteRendererComponent;
+import de.kuno.lazyjam.tools.cdi.annotations.Service;
 import de.kuno.lazyjam.tools.log.LogManager;
 
+@Service
 public class AssetManager {
 
 	private final String defaultFolder = "assets/";
@@ -27,16 +29,8 @@ public class AssetManager {
 	@SuppressWarnings("rawtypes")
 	private final Class[] loaders = new Class[] { ASCIISpriteAnimation.class, PNGSpriteRendererComponent.class };
 
-	private static AssetManager instance;
-
 	private Map<String, SimpleAbstractAnimationComponent> assetBank;
 	private Map<String, Audio> soundBank;
-
-	public static AssetManager getInstance() {
-		if (instance == null)
-			instance = new AssetManager();
-		return instance;
-	}
 
 	public AssetManager() {
 		this.assetBank = new HashMap<String, SimpleAbstractAnimationComponent>();
@@ -72,7 +66,8 @@ public class AssetManager {
 			InputStream ioStream = new FileInputStream(file);
 			soundBank.put(name, SoundStore.get().getOgg(ioStream));
 		} catch (IOException e) {
-			LogManager.getInstance().log(e.getStackTrace().toString());
+			System.err.println("Sound loading failed!");
+			e.printStackTrace();
 		}
 	}
 

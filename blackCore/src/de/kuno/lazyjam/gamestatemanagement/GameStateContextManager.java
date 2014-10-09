@@ -17,14 +17,11 @@ public class GameStateContextManager {
 	IGameState activeState;
 	IGameState mainState;
 
-	public GameStateContextManager(GameContainer gc) {
+	public GameStateContextManager(GameContainer gc, ServiceManager serviceMan) {
 		gameStates = new HashMap<Class<? extends IGameState>, IGameState>();
-		serviceMan = new ServiceManager();
-		serviceMan.searchForServices();
-		serviceMan.registerAsService(gc.getInput());
-		serviceMan.registerAsService(gc);
-		serviceMan.registerAsService(new FontManager());
-		serviceMan.registerAsService(new Cam());
+		this.serviceMan = serviceMan;
+		this.serviceMan.registerAsService(gc.getInput());
+		this.serviceMan.registerAsService(gc);
 	}
 
 	public void addGameState(Class<? extends IGameState> key, IGameState state) {
@@ -73,5 +70,10 @@ public class GameStateContextManager {
 
 	public <T extends IGameState> T getMainGameState(Class<T> clazz) {
 		return clazz.cast(mainState);
+	}
+
+	public void setServiceManager(ServiceManager serviceMan) {
+		this.serviceMan = serviceMan;
+		
 	}
 }

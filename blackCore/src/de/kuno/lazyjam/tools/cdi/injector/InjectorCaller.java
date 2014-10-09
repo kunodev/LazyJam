@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import de.kuno.lazyjam.asset.manager.AssetManager;
 import de.kuno.lazyjam.gameengine.basic.GameObject;
 import de.kuno.lazyjam.gamestatemanagement.concrete.GameState;
 import de.kuno.lazyjam.helper.map.MapInit;
@@ -34,12 +35,18 @@ public class InjectorCaller {
 		return null;
 	}
 	
-	public static void callMapInit(GameObject newGoResult, Object component, String val) {
+	public static void callMapInit(AssetManager assetMan, GameObject newGoResult, Object component, String val, AssetManager assetman) {
 		newGoResult.addComponent(component);
 		Method initFromMap = getMethod(component, MapInit.class);
 		if(initFromMap != null) {
 			try {
 				initFromMap.setAccessible(true);
+				for(Class<?> param : initFromMap.getParameterTypes()) {
+					if(param == AssetManager.class) {
+						initFromMap.invoke(component, val, assetMan);
+						return;
+					}
+				}
 				initFromMap.invoke(component, val);
 			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 				e.printStackTrace();

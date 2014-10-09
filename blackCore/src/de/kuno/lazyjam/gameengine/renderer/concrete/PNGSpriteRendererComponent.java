@@ -10,6 +10,7 @@ import de.kuno.lazyjam.asset.assets.SpriteSheet;
 import de.kuno.lazyjam.asset.manager.AssetManager;
 import de.kuno.lazyjam.gameengine.renderer.abstrct.SimpleAbstractAnimationComponent;
 import de.kuno.lazyjam.helper.map.Component;
+import de.kuno.lazyjam.helper.map.MapInit;
 import de.kuno.lazyjam.tools.cdi.annotations.Render;
 @Component(name="PNGSprite")
 public class PNGSpriteRendererComponent extends SimpleAbstractAnimationComponent {
@@ -42,10 +43,10 @@ public class PNGSpriteRendererComponent extends SimpleAbstractAnimationComponent
 		// ip.getPicture().draw(getPos().x, getPos().y, tileX * xOffset, tileY *
 		// state, tileX * (xOffset + 1), tileY * (state +1));
 	}
-
-	public void initWithString(String initString) {
+	@MapInit
+	public void initWithString(String initString, AssetManager assetMan) {
 		String[] initVal = initString.split("\\+");
-		SimpleAbstractAnimationComponent preFab = AssetManager.getInstance().getAsset(initVal[0]);
+		SimpleAbstractAnimationComponent preFab = assetMan.getAsset(initVal[0]);
 		if (preFab instanceof PNGSpriteRendererComponent) {
 			PNGSpriteRendererComponent preFabTyped = (PNGSpriteRendererComponent) preFab;
 			this.overWriteAsset(preFabTyped);

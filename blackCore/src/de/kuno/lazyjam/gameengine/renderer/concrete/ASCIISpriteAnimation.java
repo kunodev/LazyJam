@@ -122,8 +122,8 @@ public class ASCIISpriteAnimation extends SimpleAbstractAnimationComponent {
 	}
 
 	@MapInit
-	public void initWithString(String val) {
-		SimpleAbstractAnimationComponent preFab = AssetManager.getInstance().getAsset(val);
+	public void initWithString(String val, AssetManager assetMan) {
+		SimpleAbstractAnimationComponent preFab = assetMan.getAsset(val);
 		if (preFab instanceof ASCIISpriteAnimation) {
 			ASCIISpriteAnimation preFabTyped = (ASCIISpriteAnimation) preFab;
 			this.overWriteAsset(preFabTyped);

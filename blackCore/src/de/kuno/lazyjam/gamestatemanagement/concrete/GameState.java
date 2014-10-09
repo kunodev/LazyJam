@@ -36,12 +36,12 @@ public class GameState extends AGameState {
 	public void onRender(ServiceManager serviceMan) {
 		Cam cam = serviceMan.getService(Cam.class);
 		if (map != null) {
-			map.render(cam.getX() % Settings.getInstance().getInt("TILE_SIZE"), cam.getY()
-					% Settings.getInstance().getInt("TILE_SIZE"),
-					cam.getX() / Settings.getInstance().getInt("TILE_SIZE"), cam.getY()
-							/ Settings.getInstance().getInt("TILE_SIZE"),
-					(Settings.getInstance().getInt("SCREENWIDTH") / Settings.getInstance().getInt("TILE_SIZE")) + 2,
-					(Settings.getInstance().getInt("SCREENHEIGHT") / Settings.getInstance().getInt("TILE_SIZE")) + 2);
+			map.render(cam.getX() % serviceMan.getService(Settings.class).getInt("TILE_SIZE"), cam.getY()
+					% serviceMan.getService(Settings.class).getInt("TILE_SIZE"),
+					cam.getX() / serviceMan.getService(Settings.class).getInt("TILE_SIZE"), cam.getY()
+							/ serviceMan.getService(Settings.class).getInt("TILE_SIZE"),
+					(serviceMan.getService(Settings.class).getInt("SCREENWIDTH") / serviceMan.getService(Settings.class).getInt("TILE_SIZE")) + 2,
+					(serviceMan.getService(Settings.class).getInt("SCREENHEIGHT") / serviceMan.getService(Settings.class).getInt("TILE_SIZE")) + 2);
 			// //
 			// map.render(cam.getX(), cam.getY());
 			// map.render(0, 0, 0, 0, 1024, 768);

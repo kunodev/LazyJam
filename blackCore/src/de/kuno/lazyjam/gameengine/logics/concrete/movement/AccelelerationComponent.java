@@ -4,7 +4,9 @@ import org.newdawn.slick.geom.Vector2f;
 
 import de.kuno.lazyjam.tools.cdi.annotations.Update;
 import de.kuno.lazyjam.gameengine.logics.concrete.movement.VelocityComponent;
+import de.kuno.lazyjam.helper.map.Component;
 
+@Component(name = "accel")
 public class AccelelerationComponent extends VelocityComponent {
 
 

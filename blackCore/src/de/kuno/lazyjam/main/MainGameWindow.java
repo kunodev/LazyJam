@@ -13,6 +13,7 @@ import de.kuno.lazyjam.camera.Cam;
 import de.kuno.lazyjam.constants.Settings;
 import de.kuno.lazyjam.gamestatemanagement.GameStateContextManager;
 import de.kuno.lazyjam.tools.cdi.manager.ServiceManager;
+import de.kuno.lazyjam.tools.reflect.ReflectionUtil;
 import de.kuno.lazyjam.tools.text.FontManager;
 
 /**
@@ -23,17 +24,9 @@ import de.kuno.lazyjam.tools.text.FontManager;
  */
 public class MainGameWindow extends BasicGame {
 
-	private static MainGameWindow instance;
 	protected GameStateContextManager gameStateMan;
-	public Cam cam;
-
-	public static MainGameWindow getInstance() {
-		if (instance == null)
-			instance = new MainGameWindow("Black Core Project");
-		return instance;
-
-	}
-
+	protected ServiceManager serviceMan;
+	
 	public MainGameWindow(String gamename) {
 		super(gamename);
 	}
@@ -43,7 +36,7 @@ public class MainGameWindow extends BasicGame {
 	 */
 	@Override
 	public void init(GameContainer gc) throws SlickException {
-		gameStateMan = new GameStateContextManager(gc);
+		gameStateMan = new GameStateContextManager(gc, serviceMan);
 	}
 
 	@Override
@@ -58,15 +51,15 @@ public class MainGameWindow extends BasicGame {
 		// VNManager.getInstance().renderVN();
 	}
 
-	public static void createMainGameWindow() {
+	public static void createMainGameWindow(MainGameWindow mainClass) {
 		try {
-			Settings.getInstance().setFilePath("config/settings.json");
-			Settings.getInstance().load();
-
+			ReflectionUtil.init();
+			mainClass.serviceMan = new ServiceManager();
+			mainClass.serviceMan.searchForServices();
 			AppGameContainer appgc;
-			appgc = new AppGameContainer(MainGameWindow.getInstance());
-			appgc.setDisplayMode(Settings.getInstance().getInt(Settings.SCREEN_WIDTH),
-					Settings.getInstance().getInt(Settings.SCREEN_HEIGHT), false);
+			appgc = new AppGameContainer( mainClass );
+			appgc.setDisplayMode(mainClass.serviceMan.getService(Settings.class).getInt(Settings.SCREEN_WIDTH),
+					mainClass.serviceMan.getService(Settings.class).getInt(Settings.SCREEN_HEIGHT), false);
 			appgc.start();
 			
 			
@@ -76,6 +69,6 @@ public class MainGameWindow extends BasicGame {
 	}
 
 	public static void main(String[] args) {
-		createMainGameWindow();
+		createMainGameWindow(new MainGameWindow("LazyJam Lib / Black Core"));
 	}
 }

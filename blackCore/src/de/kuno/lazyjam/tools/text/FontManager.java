@@ -7,11 +7,13 @@ import org.newdawn.slick.Color;
 
 import de.kuno.lazyjam.camera.Cam;
 import de.kuno.lazyjam.constants.Constants;
+import de.kuno.lazyjam.tools.cdi.annotations.InjectedService;
 import de.kuno.lazyjam.tools.cdi.annotations.Service;
 
 @Service
 public class FontManager {
 
+	@InjectedService
 	private Cam cam;
 	
 	/**
@@ -20,8 +22,11 @@ public class FontManager {
 	private FontDefinition font;
 	private int lowestAssetFont = 0;
 
-	public FontManager() {;
-		int fontNumber = 3;
+	public FontManager() {
+		
+	}
+	
+	public void init(int fontNumber) {
 		font = new FontDefinition(fontNumber);
 	}
 
@@ -39,6 +44,9 @@ public class FontManager {
 
 	public void drawTextRelative(int xoffset, int yoffset, String text, int stateId, Color color) {
 		Cam cam = this.cam;
+		if(this.font == null) {
+			init(3); //TODO: MAGIC NUMBER
+		}
 		font.getTtfFont().drawString(cam.getX() + xoffset, cam.getY() + yoffset, text, color);
 	}
 
@@ -55,6 +63,9 @@ public class FontManager {
 	}
 
 	public void drawTextAbsolut(int xpos, int ypos, String text, int stateId, Color color) {
+		if(this.font == null) {
+			init(3); //TODO: MAGIC NUMBER
+		}
 		font.getTtfFont().drawString(xpos, ypos, text, color);
 	}
 
